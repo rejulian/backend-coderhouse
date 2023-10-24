@@ -9,8 +9,8 @@ class ProductManager {
     this.products = []
   }
 
-  async writeProducts() {
-    await fs.writeFile(this.path, JSON.stringify(this.products));
+  async writeProducts(array) {
+    await fs.writeFile(this.path, JSON.stringify(array));
   }
  
   addProduct = async ({ title, description, price, thumbnail, code, stock }) => {
@@ -18,8 +18,8 @@ class ProductManager {
     
     let newProduct = { id: ProductManager.id, title, description, price, thumbnail, code, stock }
     this.products.push(newProduct)
-    
-    await this.writeProducts()
+
+    await fs.writeFile(this.path, JSON.stringify(products))
   }
 
   readProducts = async () => {
@@ -52,7 +52,7 @@ class ProductManager {
     const index = response.findIndex((p) => p.id === id);
     if (index !== -1) {
       response.splice(index, 1);
-      await fs.writeFile(this.path, JSON.stringify(response))
+      await this.writeProducts(response)
     }
   }
 
@@ -64,7 +64,7 @@ class ProductManager {
 
     if (index !== -1) {
       response[index] = { id, ...data };
-      await fs.writeFile(this.path, JSON.stringify(response))
+      await this.writeProducts(response)
     } else {
       console.log("Producto no encontrado");
     }
@@ -76,11 +76,11 @@ const products = new ProductManager;
 
 products.addProduct({title: 'KTM DUKE 200',description: 'MOTO KTM DUKE 200',price: 2000,thumbnail : './assets/ktm200.jpg',code:  'mt01',stock : 1})
 
-products.addProduct({title: 'HONDA CB190R',description: 'MOTO HONDA CB190R',price: 1000,thumbnail : './assets/honda190r.jpg',code:  'mt02',stock : 1})
+// products.addProduct({title: 'HONDA CB190R',description: 'MOTO HONDA CB190R',price: 1000,thumbnail : './assets/honda190r.jpg',code:  'mt02',stock : 1})
 
 // products.getProducts();
 
-// products.getProductById(2);
+// products.getProductById(1);
 
 // products.updateProduct(1, {
 //   title: 'KTM DUKE 200',
