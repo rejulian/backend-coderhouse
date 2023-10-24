@@ -1,1 +1,0 @@
-{"path":"./products.txt","products":[{"id":1,"title":"KTM DUKE 200","description":"MOTO KTM DUKE 200","price":2000,"thumbnail":"./assets/ktm200.jpg","code":"mt01","stock":1}]}

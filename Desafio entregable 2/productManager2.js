@@ -19,7 +19,7 @@ class ProductManager {
     let newProduct = { id: ProductManager.id, title, description, price, thumbnail, code, stock }
     this.products.push(newProduct)
 
-    await fs.writeFile(this.path, JSON.stringify(products))
+    await fs.writeFile(this.path, JSON.stringify(this.products))
   }
 
   readProducts = async () => {
@@ -76,7 +76,7 @@ const products = new ProductManager;
 
 products.addProduct({title: 'KTM DUKE 200',description: 'MOTO KTM DUKE 200',price: 2000,thumbnail : './assets/ktm200.jpg',code:  'mt01',stock : 1})
 
-// products.addProduct({title: 'HONDA CB190R',description: 'MOTO HONDA CB190R',price: 1000,thumbnail : './assets/honda190r.jpg',code:  'mt02',stock : 1})
+products.addProduct({title: 'HONDA CB190R',description: 'MOTO HONDA CB190R',price: 1000,thumbnail : './assets/honda190r.jpg',code:  'mt02',stock : 1})
 
 // products.getProducts();
 
