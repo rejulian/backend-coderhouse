@@ -1,6 +1,6 @@
 import { promises as fs } from "fs"
 
-class ProductManager {
+export class ProductManager {
 
   static id = 0
 
@@ -31,7 +31,7 @@ class ProductManager {
   
   getProducts = async () => {
     let response = await this.readProducts()
-    console.log(response);
+    return response;
   }
 
   getProductById = async (id) => {
@@ -40,7 +40,7 @@ class ProductManager {
     const product = response.find(p => p.id === id);
 
     if (product) {
-      console.log(product);
+     return product;
     } else {
       console.log(`Product ${id} not found`)
     }
@@ -74,9 +74,9 @@ class ProductManager {
 
 const products = new ProductManager;
 
-products.addProduct({title: 'KTM DUKE 200',description: 'MOTO KTM DUKE 200',price: 2000,thumbnail : './assets/ktm200.jpg',code:  'mt01',stock : 1})
+// products.addProduct({title: 'KTM DUKE 200',description: 'MOTO KTM DUKE 200',price: 2000,thumbnail : './assets/ktm200.jpg',code:  'mt01',stock : 1})
 
-products.addProduct({title: 'HONDA CB190R',description: 'MOTO HONDA CB190R',price: 1000,thumbnail : './assets/honda190r.jpg',code:  'mt02',stock : 1})
+// products.addProduct({title: 'HONDA CB190R',description: 'MOTO HONDA CB190R',price: 1000,thumbnail : './assets/honda190r.jpg',code:  'mt02',stock : 1})
 
 // products.getProducts();
 
