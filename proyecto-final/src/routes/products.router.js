@@ -6,45 +6,65 @@ const productsRouter = Router()
 
 //VER TODOS LOS PRODUCTOS
 productsRouter.get('/', async (req, res) => {
-    const {limit} = req.query;
-    const response = await productManager.getProducts()
+    try {
+        const { limit } = req.query;
+        const response = await productManager.getProducts()
 
-    if(limit) {
-        const limitedProducts = response.slice(0, limit)
-        return res.json(limitedProducts)
+        if (limit) {
+            const limitedProducts = response.slice(0, limit)
+            return res.json(limitedProducts)
+        }
+
+        return res.json(response)
+    } catch (error) {
+        console.log(error);
     }
-
-    return res.json(response)
 
 })
 
 //VER PRODUCTO POR ID
 productsRouter.get('/:pid', async (req, res) => {
-    const id = parseInt(req.params.pid);
-    const response = await productManager.getProductById(id)
-    res.json(response)
+    try {
+        const id = parseInt(req.params.pid);
+        const response = await productManager.getProductById(id)
+        res.json(response)
+    } catch (error) {
+        console.log(error);
+    }
 })
 
 //AGREGAR PRODUCTO
 productsRouter.post('/', async (req, res) => {
-    const {title, description, price, thumbnail, code, stock, status = true, category} = req.body;
-    const response = await productManager.addProduct({title, description, price, thumbnail, code, stock, status, category})
-    res.json(response)
+    try {
+        const { title, description, price, thumbnail, code, stock, status = true, category } = req.body;
+        const response = await productManager.addProduct({ title, description, price, thumbnail, code, stock, status, category })
+        res.json(response)
+    } catch (error) {
+        console.log(error);
+    }
 })
 
 //ACTUALIZAR PRODUCTO
 productsRouter.put('/:pid', async (req, res) => {
-    const id = parseInt(req.params.pid);
-    const {title, description, price, thumbnail, code, stock, status = true, category} = req.body;
-    const response = await productManager.updateProduct(id, {title, description, price, thumbnail, code, stock, status, category})
-    res.json(response)
+    try {
+        const id = parseInt(req.params.pid);
+        const { title, description, price, thumbnail, code, stock, status = true, category } = req.body;
+        const response = await productManager.updateProduct(id, { title, description, price, thumbnail, code, stock, status, category })
+        res.json(response)
+    } catch (error) {
+        console.log(error);
+    }
 })
 
 //ELIMINAR PRODUCTO
 productsRouter.delete('/:pid', async (req, res) => {
-    const id = parseInt(req.params.pid);
-    await productManager.deleteProduct(id)
-    res.send('Producto eliminado exitosamente')
+    try {
+        const id = parseInt(req.params.pid);
+        await productManager.deleteProduct(id)
+        res.send('Producto eliminado exitosamente')
+    } catch (error) {
+        console.log(error);
+    }
 })
 
-export {productsRouter}
+export { productsRouter }
