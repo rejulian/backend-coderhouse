@@ -1,38 +1,50 @@
 import { Router } from "express";
+import { productManager } from "../index.js";
+
 
 const productsRouter = Router()
 
-const products = ['manzana', 'pera', 'zanahoria']
-
 //VER TODOS LOS PRODUCTOS
-productsRouter.get('/', (req, res) => {
+productsRouter.get('/', async (req, res) => {
     const {limit} = req.query;
-    if (limit) {
-        const limitedProducts = products.slice(0, limit);
+    const response = await productManager.getProducts()
+
+    if(limit) {
+        const limitedProducts = response.slice(0, limit)
         return res.json(limitedProducts)
     }
-    return res.json(products)
+
+    return res.json(response)
+
 })
 
 //VER PRODUCTO POR ID
-productsRouter.get('/:pid', (req, res) => {
-    const id = req.params.pid;
-    res.json(products[id])
+productsRouter.get('/:pid', async (req, res) => {
+    const id = parseInt(req.params.pid);
+    const response = await productManager.getProductById(id)
+    res.json(response)
 })
 
 //AGREGAR PRODUCTO
-productsRouter.post('/', (req, res) => {
-    const {product} = req.body;
-    products.push(product)
-    res.send('producto agregado')
+productsRouter.post('/', async (req, res) => {
+    const {title, description, price, thumbnail, code, stock, status = true, category} = req.body;
+    const response = await productManager.addProduct({title, description, price, thumbnail, code, stock, status, category})
+    res.json(response)
 })
 
 //ACTUALIZAR PRODUCTO
-productsRouter.put('/:pid', (req, res) => {
+productsRouter.put('/:pid', async (req, res) => {
+    const id = parseInt(req.params.pid);
+    const {title, description, price, thumbnail, code, stock, status = true, category} = req.body;
+    const response = await productManager.updateProduct(id, {title, description, price, thumbnail, code, stock, status, category})
+    res.json(response)
 })
 
 //ELIMINAR PRODUCTO
-productsRouter.delete('/:pid', (req, res) => {
+productsRouter.delete('/:pid', async (req, res) => {
+    const id = parseInt(req.params.pid);
+    await productManager.deleteProduct(id)
+    res.send('Producto eliminado exitosamente')
 })
 
 export {productsRouter}
