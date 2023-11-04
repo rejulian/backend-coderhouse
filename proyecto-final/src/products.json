@@ -1,1 +1,92 @@
-[{"id":1,"title":"PRODUCTO DE PRUEBA 2","description":"PROBANDO POST CON POSTMAN 2","price":400,"thumbnail":"./assets/POSTMAN2.jpg","code":"mt13","stock":11,"status":"false","category":"prueba"}]
+[
+    {
+        "id": 1,
+        "title": "iPhone 15",
+        "description": "Celular iPhone 15 1tb",
+        "price": 2000,
+        "thumbnail": "./assets/iphone15.jpg",
+        "code": "mt01",
+        "stock": 3
+    },
+    {
+        "id": 2,
+        "title": "iPhone 14",
+        "description": "Celular iPhone 14 128gb",
+        "price": 1000,
+        "thumbnail": "./assets/iphone14.jpg",
+        "code": "mt02",
+        "stock": 4
+    },
+    {
+        "id": 3,
+        "title": "iPhone XR",
+        "description": "Celular iPhone XR 64gb",
+        "price": 500,
+        "thumbnail": "./assets/iphonexr.jpg",
+        "code": "mt03",
+        "stock": 1
+    },
+    {
+        "id": 4,
+        "title": "iPhone X",
+        "description": "Celular iPhone X 64gb",
+        "price": 300,
+        "thumbnail": "./assets/iphonex.jpg",
+        "code": "mt04",
+        "stock": 1
+    },
+    {
+        "id": 5,
+        "title": "Samsung Galaxy S23",
+        "description": "Celular Samsung Galaxy S23 64gb",
+        "price": 1500,
+        "thumbnail": "./assets/SG23.jpg",
+        "code": "mt05",
+        "stock": 1
+    },
+    {
+        "id": 6,
+        "title": "Samsung Galaxy S22",
+        "description": "Celular Samsung Galaxy S22 64gb",
+        "price": 1000,
+        "thumbnail": "./assets/SG22.jpg",
+        "code": "mt06",
+        "stock": 1
+    },
+    {
+        "id": 7,
+        "title": "Samsung Galaxy S21",
+        "description": "Celular Samsung Galaxy S21 64gb",
+        "price": 700,
+        "thumbnail": "./assets/SG21.jpg",
+        "code": "mt07",
+        "stock": 1
+    },
+    {
+        "id": 8,
+        "title": "Samsung Galaxy S20",
+        "description": "Celular Samsung Galaxy S20 64gb",
+        "price": 500,
+        "thumbnail": "./assets/SG20.jpg",
+        "code": "mt08",
+        "stock": 1
+    },
+    {
+        "id": 9,
+        "title": "XIAOMI REDMINOTE 12",
+        "description": "Celular XIAOMI REDMINOTE 12 128gb",
+        "price": 900,
+        "thumbnail": "./assets/XRN12.jpg",
+        "code": "mt09",
+        "stock": 1
+    },
+    {
+        "id": 10,
+        "title": "Xiamo Redminote 11",
+        "description": "Celular XIAOMI REDMINOTE 11 XR 64gb",
+        "price": 600,
+        "thumbnail": "./assets/XRN11.jpg",
+        "code": "mt10",
+        "stock": 1
+    }
+]

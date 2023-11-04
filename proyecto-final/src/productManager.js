@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs';
+import { v4 as uuidv4 } from 'uuid';
 
 export class ProductManager {
-    static id = 0;
 
     constructor() {
         this.path = 'products.json'
@@ -9,8 +9,9 @@ export class ProductManager {
     }
 
     addProduct = async ({ title, description, price, thumbnail, code, stock, status, category }) => {
-        ProductManager.id++;
-        let newProduct =  { id: ProductManager.id, title, description, price, thumbnail, code, stock, status, category  }
+        const id = uuidv4()
+        let newProduct =  { id, title, description, price, thumbnail, code, stock, status, category  }
+        this.products = await this.getProducts()
         this.products.push(newProduct);
         await fs.writeFile(this.path, JSON.stringify(this.products))
         return newProduct;
@@ -23,10 +24,9 @@ export class ProductManager {
     }
 
     getProductById = async (id) => {
-        const response = await fs.readFile(this.path, 'utf8')
-        const responseJSON = JSON.parse(response)
+        const response = await this.getProducts()
 
-        const product = responseJSON.find(product => product.id === id)
+        const product = response.find(product => product.id === id)
 
         if (product){
             return product
@@ -36,29 +36,27 @@ export class ProductManager {
     }
 
     updateProduct = async (id, {...data}) => {
-        const response = await fs.readFile(this.path, 'utf8')
-        const responseJSON = JSON.parse(response)
+        const response = await this.getProducts()
 
-        const index = responseJSON.findIndex(product => product.id === id)
+        const index = response.findIndex(product => product.id === id)
 
         if(index !== -1){
-            responseJSON[index] = {id, ...data}
-            await fs.writeFile(this.path, JSON.stringify(responseJSON))
-            return responseJSON[index]
+            response[index] = {id, ...data}
+            await fs.writeFile(this.path, JSON.stringify(response))
+            return response[index]
         } else{
             console.log('Producto no encontrado');
         }
     }
 
     deleteProduct = async (id) => {
-        const response = await fs.readFile(this.path, 'utf8')
-        const responseJSON = JSON.parse(response)
+        const response = await this.getProducts()
 
-        const index = responseJSON.findIndex(product => product.id === id)
+        const index = response.findIndex(product => product.id === id)
 
         if(index !== -1) {
-            responseJSON.splice(index, 1);
-            await fs.writeFile(this.path, JSON.stringify(responseJSON))
+            response.splice(index, 1);
+            await fs.writeFile(this.path, JSON.stringify(response))
         }else{
             console.log('producto no encontrado');
         }

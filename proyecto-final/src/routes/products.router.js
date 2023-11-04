@@ -25,7 +25,7 @@ productsRouter.get('/', async (req, res) => {
 //VER PRODUCTO POR ID
 productsRouter.get('/:pid', async (req, res) => {
     try {
-        const id = parseInt(req.params.pid);
+        const id = req.params.pid;
         const response = await productManager.getProductById(id)
         res.json(response)
     } catch (error) {
@@ -47,19 +47,20 @@ productsRouter.post('/', async (req, res) => {
 //ACTUALIZAR PRODUCTO
 productsRouter.put('/:pid', async (req, res) => {
     try {
-        const id = parseInt(req.params.pid);
+        const id = req.params.pid;
         const { title, description, price, thumbnail, code, stock, status = true, category } = req.body;
         const response = await productManager.updateProduct(id, { title, description, price, thumbnail, code, stock, status, category })
         res.json(response)
     } catch (error) {
         console.log(error);
+        res.send('ERROR')
     }
 })
 
 //ELIMINAR PRODUCTO
 productsRouter.delete('/:pid', async (req, res) => {
     try {
-        const id = parseInt(req.params.pid);
+        const id = req.params.pid;
         await productManager.deleteProduct(id)
         res.send('Producto eliminado exitosamente')
     } catch (error) {
