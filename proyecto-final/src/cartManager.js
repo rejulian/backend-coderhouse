@@ -30,7 +30,6 @@ export class CartManager {
         const id = uuidv4()
         const newCart = { id, products: [] }
 
-
         this.carts = await this.getCarts()
         this.carts.push(newCart);
 
@@ -45,7 +44,13 @@ export class CartManager {
 
         if (index !== -1) {
             const cartProducts = await this.getCartProducts(cart_id)
-            cartProducts.push({ product_id, quantity: 1 })
+            const existingProductIndex = cartProducts.findIndex(product => product.product_id === product_id)
+
+            if(existingProductIndex !== -1){
+                cartProducts[existingProductIndex].quantity = cartProducts[existingProductIndex].quantity + 1
+            }else{
+                cartProducts.push({ product_id, quantity: 1 })
+            }
             response[index].products = cartProducts
 
             await fs.writeFile(this.path, JSON.stringify(response))
@@ -55,11 +60,3 @@ export class CartManager {
         }
     }
 }
-
-// const cm = new CartManager
-
-// cm.newCart({product_id: "Producto1", quantity : 1})
-
-// cm.addProductToCart("eaaba6b0-ec3b-4cbe-9270-573fb6e51ff4", "Producto2")
-
-// cm.getCartProducts("d74333cc-3069-479a-8c5b-06f3d4f51ca5")
