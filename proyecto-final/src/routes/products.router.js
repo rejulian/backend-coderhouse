@@ -37,8 +37,12 @@ productsRouter.get('/:pid', async (req, res) => {
 productsRouter.post('/', async (req, res) => {
     try {
         const { title, description, price, thumbnail, code, stock, status = true, category } = req.body;
-        const response = await productManager.addProduct({ title, description, price, thumbnail, code, stock, status, category })
-        res.json(response)
+        if(!title || !description || !price || !thumbnail || !code || !stock || !category){
+            res.status(400).send('Error al intentar guardar producto. Envie todos los campos necesarios')
+        } else{
+            const response = await productManager.addProduct({ title, description, price, thumbnail, code, stock, status, category })
+            res.json(response)
+        }
     } catch (error) {
         console.log(error);
     }
