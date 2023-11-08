@@ -27,6 +27,13 @@ productsRouter.get('/:pid', async (req, res) => {
     try {
         const id = req.params.pid;
         const response = await productManager.getProductById(id)
+
+        if(!response){
+            res.status(404).json({
+                message: 'Product not found'
+            })
+        }
+
         res.json(response)
     } catch (error) {
         console.log(error);
@@ -54,6 +61,13 @@ productsRouter.put('/:pid', async (req, res) => {
         const id = req.params.pid;
         const { title, description, price, thumbnail, code, stock, status = true, category } = req.body;
         const response = await productManager.updateProduct(id, { title, description, price, thumbnail, code, stock, status, category })
+
+        if(!response){
+            res.status(404).json({
+                message: 'Could not update product'
+            })
+        }
+
         res.json(response)
     } catch (error) {
         console.log(error);

@@ -31,7 +31,7 @@ export class ProductManager {
         if (product){
             return product
         } else {
-            console.log('Producto no encontrado');
+            null
         }
     }
 
@@ -45,7 +45,7 @@ export class ProductManager {
             await fs.writeFile(this.path, JSON.stringify(response))
             return response[index]
         } else{
-            console.log('Producto no encontrado');
+            null
         }
     }
 
@@ -58,7 +58,7 @@ export class ProductManager {
             response.splice(index, 1);
             await fs.writeFile(this.path, JSON.stringify(response))
         }else{
-            console.log('producto no encontrado');
+            null
         }
     }
 }

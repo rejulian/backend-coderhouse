@@ -14,10 +14,17 @@ cartsRouter.post('/', async (req, res) => {
 })
 
 cartsRouter.get('/:cid', async (req, res) => {
-    const {cid} = req.params;
+    const { cid } = req.params;
 
     try {
-      const response = await cartManager.getCartProducts(cid)
+        const response = await cartManager.getCartProducts(cid)
+
+        if(!response){
+            res.status(404).json({
+                message: `Could not find products of car with id ${cid}`
+            })
+        }
+
       res.json(response)
     } catch (error) {
         console.log(error);
@@ -25,7 +32,7 @@ cartsRouter.get('/:cid', async (req, res) => {
 })
 
 cartsRouter.post('/:cid/product/:pid', async (req, res) => {
-    const {cid, pid} = req.params;
+    const { cid, pid } = req.params;
 
     try {
         await cartManager.addProductToCart(cid, pid)
@@ -35,4 +42,4 @@ cartsRouter.post('/:cid/product/:pid', async (req, res) => {
     }
 })
 
-export {cartsRouter}
+export { cartsRouter }

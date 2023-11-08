@@ -22,7 +22,7 @@ export class CartManager {
         if (cart) {
             return cart.products
         } else {
-            console.log('Carrito no encontrado');
+            null
         }
     }
 
