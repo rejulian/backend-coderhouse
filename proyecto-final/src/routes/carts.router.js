@@ -9,7 +9,9 @@ cartsRouter.post('/', async (req, res) => {
         const response = await cartManager.newCart()
         res.json(response)
     } catch (error) {
-        console.log('Error al crear carrito');
+        res.status(500).json({
+            message: 'Error al crear carrito'
+        })
     }
 })
 
@@ -27,7 +29,9 @@ cartsRouter.get('/:cid', async (req, res) => {
 
       res.json(response)
     } catch (error) {
-        console.log(error);
+        res.status(500).json({
+            message: 'Error al buscar carrito'
+        })
     }
 })
 
@@ -38,7 +42,9 @@ cartsRouter.post('/:cid/product/:pid', async (req, res) => {
         await cartManager.addProductToCart(cid, pid)
         res.send('Producto agregado exitosamente')
     } catch (error) {
-        console.log(error);
+        res.status(500).json({
+            message: "ERROR AL INTENTAR GUARDAR PRODUCTO AL CARRITO"
+        })
     }
 })
 

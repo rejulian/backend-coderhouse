@@ -17,7 +17,9 @@ productsRouter.get('/', async (req, res) => {
 
         return res.json(response)
     } catch (error) {
-        console.log(error);
+        res.status(500).json({
+            message: 'Error al buscar productos'
+        })
     }
 
 })
@@ -36,7 +38,9 @@ productsRouter.get('/:pid', async (req, res) => {
 
         res.json(response)
     } catch (error) {
-        console.log(error);
+        res.status(500).json({
+            message: 'Error al buscar producto'
+        })
     }
 })
 
@@ -51,7 +55,10 @@ productsRouter.post('/', async (req, res) => {
             res.json(response)
         }
     } catch (error) {
-        console.log(error);
+        res.status(500).json({
+            message: 'Error al intentar guardar producto.'
+        })
+
     }
 })
 
@@ -70,8 +77,9 @@ productsRouter.put('/:pid', async (req, res) => {
 
         res.json(response)
     } catch (error) {
-        console.log(error);
-        res.send('ERROR')
+        res.status(500).json({
+            message: 'Error al intentar actualizar producto.'
+        })
     }
 })
 
@@ -80,9 +88,13 @@ productsRouter.delete('/:pid', async (req, res) => {
     try {
         const id = req.params.pid;
         await productManager.deleteProduct(id)
-        res.send('Producto eliminado exitosamente')
+        res.status(200).json({
+            meesage: 'Producto eliminado exitosamente'
+        })
     } catch (error) {
-        console.log(error);
+        res.status(500).json({
+            message: 'Error al intentar eliminar producto.'
+        })
     }
 })
 
