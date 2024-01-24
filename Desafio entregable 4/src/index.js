@@ -1,34 +1,56 @@
 import express from 'express';
-import { ProductManager } from './controllers/ProductManager.js'
-import { CartManager } from './controllers/CartManager.js'
+import handlebars from 'express-handlebars';
+import { ProductManager } from './controllers/ProductManager.js';
+import { CartManager } from './controllers/CartManager.js';
 import { productRouter } from './routes/procucts.router.js';
 import { cartRouter } from './routes/carts.router.js';
-import { viewsRouter } from './routes/views.router.js';
-import { engine } from 'express-handlebars';
-import * as path from 'path';
-import __dirname from './utils.js';
+import { handlebarsRouter } from './routes/handlebars.router.js';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import { Server } from 'socket.io';
+import { createServer } from 'node:http';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
+const server = createServer(app);
 const PORT = 8080;
 
 export const productManager = new ProductManager();
 export const cartManager = new CartManager();
 
+// PUBLIC
+app.use(express.static(__dirname + '/public'));
+
+// HANDLEBARS
+app.engine('handlebars', handlebars.engine());
+app.set('view engine', 'handlebars');
+app.set('views', __dirname + '/views');
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//HANDLEBARS
-app.engine('handlebars', engine());
-app.set('view engine', 'handlebars');
-app.set('views', path.resolve(__dirname + '/views'))
+//ROUTES
+app.use('/api/products', productRouter);
+app.use('/api/carts', cartRouter);
+app.use('/api/views', handlebarsRouter);
 
-//STATIC
-app.use('/', express.static(__dirname + '/public'))
+//SOCKET
+const io = new Server(server)
+io.on('connection', async (socket) => {
+    console.log('a user connected');
 
-app.use('/api/products', productRouter)
-app.use('/api/carts', cartRouter)
-app.use('/api/views', viewsRouter)
+    const products = await productManager.getProducts()
 
-app.listen(PORT, (req, res) => {
+    socket.emit('products', products)
+
+    socket.on('newProduct', (data) => {
+        console.log(data);
+        productManager.addProduct(data)
+    })
+});
+
+server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

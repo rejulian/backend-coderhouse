@@ -1,0 +1,20 @@
+<section>
+    <h1>REAL TIME PRODUCTS</h1>
+    <form onsubmit="return addProduct()">
+        <input id="title" type="text" placeholder="title">
+        <input id="description" type="text" placeholder="description">
+        <input id="price" type="number" placeholder="price">
+        <input id="thumbnail" type="text" placeholder="thumbnail">
+        <input id="code" type="text" placeholder="code">
+        <input id="stock" type="number" placeholder="stock">
+        <input id="status" type="text" placeholder="status">
+        <input id="category" type="text" placeholder="category">
+        <button type="submit">ENVIAR</button>
+    </form>
+</section>
+<section id="products-box">
+
+</section>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>
