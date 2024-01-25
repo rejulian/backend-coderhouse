@@ -1,7 +1,21 @@
 const socket = io()
+const box = document.getElementById('products-box')
 
 socket.on('products', (data) => {
-    console.log(data);
+    const products = data
+
+    const newBox = document.createElement('div');
+    newBox.className = 'products-container'
+
+    products.forEach(product => {
+        newBox.innerHTML += `<div class="product-card">
+            <span>${product.title}</span>
+            <p>$${product.price}</p>
+        </div>`
+    });
+
+    box.innerHTML = '';
+    box.appendChild(newBox);
 })
 
 const addProduct = (e) => {

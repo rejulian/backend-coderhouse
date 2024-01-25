@@ -10,19 +10,22 @@ productRouter.get('/', async (req, res) => {
         const products = await productManager.getProducts()
 
         if (limit) {
-            const productsLimit = products.slice(0, limit)
-            return res.status(200).json(productsLimit)
+            const productsLimit = products.slice(0, limit);
+            return res.status(200).render("home", { products: productsLimit });
         }
 
-        return res.status(200).json(products)
-        //🔴🔴🔴🔴RENDERIZAR EN HOME.HANDLEBARS
-
+        return res.status(200).render("home", { products });
     } catch (error) {
         res.status(500).json({
             message: 'Error while getting products'
-        })
+        });
     }
+});
+
+productRouter.get('/realtimeproducts', (req, res) => {
+    res.render('realTimeProducts',{})
 })
+
 
 //GET PRODUCT BY ID
 productRouter.get('/:pid', async (req, res) => {

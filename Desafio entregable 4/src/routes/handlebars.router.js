@@ -6,4 +6,5 @@ handlebarsRouter.get('/realtimeproducts', (req, res) => {
     res.render('realTimeProducts',{})
 })
 
+
 export { handlebarsRouter }

@@ -1,0 +1,11 @@
+<section>
+    <h1>Products - Handlebars</h1>
+    <div class="box-products">
+        {{#each products}}
+        <div class="product-box">
+            <span>{{this.title}}</span>
+            <p>${{this.price}}</p>
+        </div>
+        {{/each}}
+    </div>
+</section>
