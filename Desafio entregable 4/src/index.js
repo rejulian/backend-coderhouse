@@ -4,7 +4,6 @@ import { ProductManager } from './controllers/ProductManager.js';
 import { CartManager } from './controllers/CartManager.js';
 import { productRouter } from './routes/procucts.router.js';
 import { cartRouter } from './routes/carts.router.js';
-import { handlebarsRouter } from './routes/handlebars.router.js';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { Server } from 'socket.io';
@@ -34,7 +33,6 @@ app.use(express.urlencoded({ extended: true }));
 //ROUTES
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartRouter);
-app.use('/api/views', handlebarsRouter);
 
 //SOCKET
 const io = new Server(server)
