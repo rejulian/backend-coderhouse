@@ -11,21 +11,16 @@ productRouter.get('/', async (req, res) => {
 
         if (limit) {
             const productsLimit = products.slice(0, limit);
-            return res.status(200).render("home", { products: productsLimit });
+            return res.status(200).json({products: productsLimit});
         }
 
-        return res.status(200).render("home", { products });
+        return res.status(200).json(products);
     } catch (error) {
         res.status(500).json({
             message: 'Error while getting products'
         });
     }
 });
-
-productRouter.get('/realtimeproducts', (req, res) => {
-    res.render('realTimeProducts',{})
-})
-
 
 //GET PRODUCT BY ID
 productRouter.get('/:pid', async (req, res) => {
@@ -56,6 +51,13 @@ productRouter.post('/', async (req, res) => {
             return res.status(400).json({
                 message: 'Error while adding product. Fill the gaps'
             })
+        }
+
+        const products = await productManager.getProducts()
+
+        const productExists = products.find(p=>p.code===code)
+        if(productExists){
+            return res.status(400).json({message:'Product already exists'})
         }
         const product = await productManager.addProduct({ title, description, price, thumbnail, code, stock, status, category })
         return res.status(200).json(product)
