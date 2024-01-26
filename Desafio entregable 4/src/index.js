@@ -43,10 +43,10 @@ io.on('connection', async (socket) => {
 
     socket.emit('products', products)
 
-    socket.on('newProduct', (data) => {
-        console.log(data);
-        productManager.addProduct(data)
-    })
+    // socket.on('newProduct', (data) => {
+    //     console.log(data);
+    //     productManager.addProduct(data)
+    // })
 });
 
 server.listen(PORT, () => {

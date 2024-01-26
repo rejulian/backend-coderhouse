@@ -29,6 +29,16 @@ const addProduct = (e) => {
         status: document.getElementById('status').value,
         category: document.getElementById('category').value
     }
-    socket.emit('newProduct', product)
+    // socket.emit('newProduct', product)
+    fetch('http://localhost:8080/api/products',{
+        method: 'POST',
+        body: JSON.stringify(product),
+        headers: {
+          "Content-Type": "application/json",
+        }
+    })
+    .then(()=>console.log('Producto agregado'))
+    .catch((err)=>console.error(err))
+
     return false;
 }
