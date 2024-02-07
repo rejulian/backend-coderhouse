@@ -4,7 +4,7 @@ import { MongoProductManager } from "../dao/mongoManagers/mongoProductManager.js
 
 
 const productsRouter = Router()
-const mongoProductManager = new MongoProductManager;
+export const mongoProductManager = new MongoProductManager;
 
 //VER TODOS LOS PRODUCTOS
 productsRouter.get('/', async (req, res) => {

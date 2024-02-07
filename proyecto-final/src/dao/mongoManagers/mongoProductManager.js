@@ -16,11 +16,11 @@ export class MongoProductManager {
     getProducts = async (limit) => {
         try {
             if (limit) {
-                const limitedProducts = await ProductModel.find().limit(limit)
+                const limitedProducts = await ProductModel.find({}).limit(limit).lean()
                 if (limitedProducts.length === 0) throw new Error("Could not find any products")
                 return limitedProducts
             }
-            const products = await ProductModel.find()
+            const products = await ProductModel.find({}).lean()
             if (products.length === 0) throw new Error("Could not find any products")
             return products
         } catch (error) {
