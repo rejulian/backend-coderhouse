@@ -1,24 +1,21 @@
 import { Router } from "express";
-import { productManager } from "../index.js";
+import { MongoProductManager } from "../dao/mongoManagers/mongoProductManager.js";
+// import { productManager } from "../index.js";
 
 
 const productsRouter = Router()
+const mongoProductManager = new MongoProductManager;
 
 //VER TODOS LOS PRODUCTOS
 productsRouter.get('/', async (req, res) => {
     try {
         const { limit } = req.query;
-        const response = await productManager.getProducts()
-
-        if (limit) {
-            const limitedProducts = response.slice(0, limit)
-            return res.json(limitedProducts)
-        }
-
+        const response = await mongoProductManager.getProducts(limit)
         return res.json(response)
     } catch (error) {
+        console.log(error)
         res.status(500).json({
-            message: 'Error al buscar productos'
+            message: error.message
         })
     }
 
@@ -28,18 +25,12 @@ productsRouter.get('/', async (req, res) => {
 productsRouter.get('/:pid', async (req, res) => {
     try {
         const id = req.params.pid;
-        const response = await productManager.getProductById(id)
-
-        if(!response){
-            res.status(404).json({
-                message: 'Product not found'
-            })
-        }
-
+        const response = await mongoProductManager.getProductById(id)
         res.json(response)
     } catch (error) {
+        console.log(error)
         res.status(500).json({
-            message: 'Error al buscar producto'
+            message: error.message
         })
     }
 })
@@ -47,16 +38,12 @@ productsRouter.get('/:pid', async (req, res) => {
 //AGREGAR PRODUCTO
 productsRouter.post('/', async (req, res) => {
     try {
-        const { title, description, price, thumbnail, code, stock, status = true, category } = req.body;
-        if(!title || !description || !price || !thumbnail || !code || !stock || !category){
-            res.status(400).send('Error al intentar guardar producto. Envie todos los campos necesarios')
-        } else{
-            const response = await productManager.addProduct({ title, description, price, thumbnail, code, stock, status, category })
-            res.json(response)
-        }
+        const response = await mongoProductManager.addProduct(req.body)
+        res.json(response)
     } catch (error) {
+        console.log(error)
         res.status(500).json({
-            message: 'Error al intentar guardar producto.'
+            message: error.message
         })
 
     }
@@ -66,19 +53,12 @@ productsRouter.post('/', async (req, res) => {
 productsRouter.put('/:pid', async (req, res) => {
     try {
         const id = req.params.pid;
-        const { title, description, price, thumbnail, code, stock, status = true, category } = req.body;
-        const response = await productManager.updateProduct(id, { title, description, price, thumbnail, code, stock, status, category })
-
-        if(!response){
-            res.status(404).json({
-                message: 'Could not update product'
-            })
-        }
-
+        const response = await mongoProductManager.updateProduct(id, req.body)
         res.json(response)
     } catch (error) {
+        console.log(error)
         res.status(500).json({
-            message: 'Error al intentar actualizar producto.'
+            message: error.message
         })
     }
 })
@@ -87,13 +67,12 @@ productsRouter.put('/:pid', async (req, res) => {
 productsRouter.delete('/:pid', async (req, res) => {
     try {
         const id = req.params.pid;
-        await productManager.deleteProduct(id)
-        res.status(200).json({
-            meesage: 'Producto eliminado exitosamente'
-        })
+        const response = await mongoProductManager.deleteProduct(id)
+        res.json(response)
     } catch (error) {
+        console.log(error)
         res.status(500).json({
-            message: 'Error al intentar eliminar producto.'
+            message: error.message
         })
     }
 })

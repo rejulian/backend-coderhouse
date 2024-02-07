@@ -1,50 +1,40 @@
 import { Router } from "express";
-import { cartManager } from "../index.js"
+import { MongoCartManager } from "../dao/mongoManagers/mongoCartManager.js";
 
 
 const cartsRouter = Router()
+const mongoCartManager = new MongoCartManager;
 
 cartsRouter.post('/', async (req, res) => {
     try {
-        const response = await cartManager.newCart()
+        const response = await mongoCartManager.createCart()
         res.json(response)
     } catch (error) {
-        res.status(500).json({
-            message: 'Error al crear carrito'
-        })
+        res.status(500).json({ message: error.message })
     }
 })
 
 cartsRouter.get('/:cid', async (req, res) => {
-    const { cid } = req.params;
+    const id = req.params.cid;
 
     try {
-        const response = await cartManager.getCartProducts(cid)
-
-        if(!response){
-            res.status(404).json({
-                message: `Could not find products of car with id ${cid}`
-            })
-        }
-
-      res.json(response)
+        const response = await mongoCartManager.getCartProducts(id)
+        res.json(response)
     } catch (error) {
-        res.status(500).json({
-            message: 'Error al buscar carrito'
-        })
+        res.status(500).json({ message: error.message })
     }
 })
 
 cartsRouter.post('/:cid/product/:pid', async (req, res) => {
-    const { cid, pid } = req.params;
+    const cart_id = req.params.cid
+    const product_id = req.params.pid
+    const { quantity } = req.body
 
     try {
-        await cartManager.addProductToCart(cid, pid)
-        res.send('Producto agregado exitosamente')
+        const response = await mongoCartManager.addProductToCart(cart_id, product_id, quantity)
+        res.send(response)
     } catch (error) {
-        res.status(500).json({
-            message: "ERROR AL INTENTAR GUARDAR PRODUCTO AL CARRITO"
-        })
+        res.status(500).json({ message: error.message })
     }
 })
 
