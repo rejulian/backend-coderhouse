@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
+import 'dotenv/config'
 
 export const databaseConnection = () => {
-    mongoose.connect('mongodb+srv://rejulian:EC4Nf7hzo6wxjKIa@proyectocoder.fo07ay6.mongodb.net/ecommerce')
+    mongoose.connect(process.env.MONGO_URI)
     .then(()=>console.log('Connected to database'))
     .catch(err=>console.log('Error connecting to database', err))
 }
