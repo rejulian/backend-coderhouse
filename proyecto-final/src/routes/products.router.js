@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { mongoProductManager } from "../index.js";
-// import { productManager } from "../index.js";
+import { io } from "../index.js";
 
 
 const productsRouter = Router()
@@ -37,8 +37,9 @@ productsRouter.get('/:pid', async (req, res) => {
 //AGREGAR PRODUCTO
 productsRouter.post('/', async (req, res) => {
     try {
-        const response = await mongoProductManager.addProduct(req.body)
-        res.json(response)
+        const productAdded = await mongoProductManager.addProduct(req.body);
+        io.emit('productAdded', productAdded)
+        res.json(productAdded)
     } catch (error) {
         console.log(error)
         res.status(500).json({

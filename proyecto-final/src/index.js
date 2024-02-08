@@ -39,12 +39,8 @@ app.use('/api/carts', cartsRouter)
 app.use('/views', viewsRouter)
 
 //SOCKET
-const io = new Server(server)
-io.on('connection', async (socket) => {
-    console.log('Connected');
-    const products = await mongoProductManager.getProducts()
-    socket.emit('products', products)
-})
+export const io = new Server(server)
+
 
 server.listen(process.env.PORT || 8080, (req, res) => {
     console.log(`listening on port ${process.env.PORT || 8080}`);

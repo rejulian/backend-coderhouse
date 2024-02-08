@@ -1,6 +1,20 @@
 <div>
     <h1>Pizzeria Coderhouse</h1>
-    <section class="products" id="products-box"></section>
+    <section class="products">
+        <div id="products-box" class="products__container">
+            {{#each products}}
+            <div class="product__card">
+                <img src={{this.thumbnail}} alt={{this.title}}>
+                <h1>{{this.title}}</h1>
+                <div class="product__card__information">
+                    <p>${{this.price}}</p>
+                    <p>Stock:{{this.stock}}</p>
+                </div>
+                <button onclick="alert('Es solo estetico')">Agregar</button>
+            </div>
+            {{/each}}
+        </div>
+    </section>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
