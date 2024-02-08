@@ -1,8 +1,7 @@
-<div>
+<section class="products" >
     <h1>Pizzeria Coderhouse</h1>
-    <section class="products">
-        <div id="products-box" class="products__container">
-            {{#each products}}
+    <div id="products-box" class="products__container">
+        {{#each products}}
             <div class="product__card">
                 <img src={{this.thumbnail}} alt={{this.title}}>
                 <h1>{{this.title}}</h1>
@@ -12,10 +11,10 @@
                 </div>
                 <button onclick="alert('Es solo estetico')">Agregar</button>
             </div>
-            {{/each}}
-        </div>
-    </section>
-</div>
+        {{/each}}
+    </div>
+</section>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/index.js"></script>
+
