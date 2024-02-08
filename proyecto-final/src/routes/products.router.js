@@ -1,10 +1,9 @@
 import { Router } from "express";
-import { MongoProductManager } from "../dao/mongoManagers/mongoProductManager.js";
+import { mongoProductManager } from "../index.js";
 // import { productManager } from "../index.js";
 
 
 const productsRouter = Router()
-export const mongoProductManager = new MongoProductManager;
 
 //VER TODOS LOS PRODUCTOS
 productsRouter.get('/', async (req, res) => {

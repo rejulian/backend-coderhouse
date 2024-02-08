@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { mongoProductManager } from './products.router.js'
+import { mongoProductManager } from '../index.js'
 
 export const viewsRouter = Router()
 

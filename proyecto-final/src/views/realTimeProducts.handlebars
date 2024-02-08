@@ -1,17 +1,7 @@
-<section>
+<div>
     <h1>Pizzeria Coderhouse</h1>
-    <div class="products__container">
-    </div>
-</section>
-
-{{!-- {{#each products}}
-<div class="product__card">
-    <img src={{this.thumbnail}} alt={{this.title}}>
-    <h1>{{this.title}}</h1>
-    <div class="product__card__information">
-        <p>${{this.price}}</p>
-        <p>Stock:{{this.stock}}</p>
-    </div>
-    <button>Agregar</button>
+    <section class="products" id="products-box"></section>
 </div>
-{{/each}} --}}
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/index.js"></script>
