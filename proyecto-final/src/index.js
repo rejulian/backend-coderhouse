@@ -43,6 +43,6 @@ export const io = new Server(server)
 
 
 server.listen(process.env.PORT || 8080, (req, res) => {
-    console.log(`listening on port ${process.env.PORT || 8080}`);
+    console.log(`listening on port http://localhost:${process.env.PORT || 8080}`);
     databaseConnection()
 })

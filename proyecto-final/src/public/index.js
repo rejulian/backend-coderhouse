@@ -1,4 +1,3 @@
-//Logica de socket.io
 const socket = io()
 const productsBox = document.getElementById('products-box')
 
