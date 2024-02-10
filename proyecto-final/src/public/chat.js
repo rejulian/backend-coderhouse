@@ -12,12 +12,13 @@ socket.on('message', (data) => {
         <p>${message.message}</p>
     `
     chatBox.appendChild(newDiv)
+    scroolToBottom()
 })
 
 const sendMessage = (e) => {
     e.preventDefault()
     const newMessage = inputMessage.value
-    fetch(`http://localhost:${process.env.PORT || 8080}/views/chat`, {
+    fetch(`http://localhost:8080/views/chat`, {
         method: 'POST',
         body: JSON.stringify({
             user:'Anonymous',
@@ -29,6 +30,11 @@ const sendMessage = (e) => {
     })
     .then(()=>{
         inputMessage.value = ''
+        scrollToBottom();
     })
     .catch((error)=>console.log(error))
+}
+
+function scrollToBottom() {
+    chatBox.scrollTop = chatBox.scrollHeight;
 }
