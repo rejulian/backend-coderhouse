@@ -19,7 +19,7 @@ import { MongoProductManager } from './dao/mongoManagers/mongoProductManager.js'
 const app = express();
 const server = createServer(app)
 
-export const mongoProductManager = new MongoProductManager;
+export const mongoProductManager = new MongoProductManager();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

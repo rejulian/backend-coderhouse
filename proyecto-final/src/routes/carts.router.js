@@ -3,7 +3,7 @@ import { MongoCartManager } from "../dao/mongoManagers/mongoCartManager.js";
 
 
 const cartsRouter = Router()
-const mongoCartManager = new MongoCartManager;
+const mongoCartManager = new MongoCartManager();
 
 cartsRouter.post('/', async (req, res) => {
     try {

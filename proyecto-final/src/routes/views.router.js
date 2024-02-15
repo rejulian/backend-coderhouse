@@ -4,7 +4,7 @@ import { mongoProductManager } from '../index.js'
 import { io } from '../index.js'
 
 export const viewsRouter = Router()
-const mongoMessageManager = new MongoMessageManager
+const mongoMessageManager = new MongoMessageManager()
 
 viewsRouter.get('/products', async (req, res) => {
     try {

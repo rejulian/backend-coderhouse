@@ -7,4 +7,4 @@ const CartSchema = new mongoose.Schema({
     }
 })
 
-export const CartModel = new mongoose.model('Cart', CartSchema)
+export const CartModel = mongoose.model('Cart', CartSchema)
