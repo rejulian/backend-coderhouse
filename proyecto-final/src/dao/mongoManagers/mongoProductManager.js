@@ -13,16 +13,23 @@ export class MongoProductManager {
         }
     }
 
-    getProducts = async (limit) => {
+    getProducts = async (limit, page, query, sort) => {
         try {
-            if (limit) {
-                const limitedProducts = await ProductModel.find({}).limit(limit).lean()
-                if (limitedProducts.length === 0) throw new Error("Could not find any products")
-                return limitedProducts
+            const products = await ProductModel.paginate({query}, {limit, page})
+            if(products.docs.length === 0) throw new Error("Could not find any products")
+
+            return {
+                status:'success',
+                payload: products.docs,
+                totalPages: products.totalPages,
+                prevPage: products.prevPage,
+                nextPage: products.nextPage,
+                page: products.page,
+                hasPrevPage: products.hasPrevPage,
+                hasNextPage: products.hasNextPage,
+                prevLink: products.hasPrevPage ? `http://localhost:8080/api/products?page=${products.prevPage}&limit=${limit}` : null,
+                nextLink: products.hasNextPage ? `http://localhost:8080/api/products?page=${products.nextPage}&limit=${limit}` : null,
             }
-            const products = await ProductModel.find({}).lean()
-            if (products.length === 0) throw new Error("Could not find any products")
-            return products
         } catch (error) {
             throw new Error(error.message)
         }

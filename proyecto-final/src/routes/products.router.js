@@ -8,12 +8,13 @@ const productsRouter = Router()
 //VER TODOS LOS PRODUCTOS
 productsRouter.get('/', async (req, res) => {
     try {
-        const { limit } = req.query;
-        const response = await mongoProductManager.getProducts(limit)
+        const { limit = 10, page = 1, query, sort } = req.query;
+        const response = await mongoProductManager.getProducts(limit, page, query, sort)
         return res.json(response)
     } catch (error) {
         console.log(error)
-        res.status(500).json({
+        res.json({
+            status: "error",
             message: error.message
         })
     }

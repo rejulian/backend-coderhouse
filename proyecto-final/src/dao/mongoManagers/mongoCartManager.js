@@ -36,4 +36,29 @@ export class MongoCartManager {
         }
     }
 
+    deleteProductFromCart = async (cart_id, product_id) => {
+        try {
+            const existingCart = await CartModel.findById(cart_id)
+            if(!existingCart) throw new Error('Could not find cart')
+            
+            existingCart.products = existingCart.products.filter(p => p.id !== product_id)
+            await existingCart.save()
+            return existingCart
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+
+    deleteProductsFromCart = async (cart_id) => {
+        try {
+            const existingCart = await CartModel.findById(cart_id)
+            if(!existingCart) throw new Error('Could not find cart')
+
+            existingCart.products = []
+            await existingCart.save()
+            return existingCart
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
 }
