@@ -12,7 +12,7 @@ socket.on('message', (data) => {
         <p>${message.message}</p>
     `
     chatBox.appendChild(newDiv)
-    scroolToBottom()
+    scrollToBottom()
 })
 
 const sendMessage = (e) => {
@@ -35,6 +35,7 @@ const sendMessage = (e) => {
     .catch((error)=>console.log(error))
 }
 
+//Funcion que hace que el scroll del chat baje para ver el ultimo mensaje que se envio.
 function scrollToBottom() {
     chatBox.scrollTop = chatBox.scrollHeight;
 }
