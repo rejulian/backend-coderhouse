@@ -11,7 +11,7 @@ const mongoMessageManager = new MongoMessageManager()
 
 viewsRouter.get('/products', async (req, res) => {
     try {
-        const { limit = 10, page = 1, query, sort } = req.query;
+        const { limit = 10, page = 1, query, sort=1 } = req.query;
         const products = await mongoProductManager.getProducts(limit, page, query, sort)
         res.render('home', { products: products.payload })
     } catch (error) {
@@ -21,8 +21,8 @@ viewsRouter.get('/products', async (req, res) => {
 
 viewsRouter.get('/realTimeProducts', async (req, res) => {
     try {
-        const { limit } = req.query;
-        const products = await mongoProductManager.getProducts(limit)
+        const { limit = 10, page = 1, query, sort=1 } = req.query;
+        const products = await mongoProductManager.getProducts(limit, page, query, sort)
         res.render('realTimeProducts', { products })
     } catch (error) {
         res.json(error.message)
