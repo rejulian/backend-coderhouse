@@ -16,3 +16,4 @@ socket.on('productAdded', (data) => {
         `
     productsBox.appendChild(newDiv)
 })
+

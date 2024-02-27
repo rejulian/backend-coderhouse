@@ -15,7 +15,7 @@ export class MongoProductManager {
 
     getProducts = async (limit, page, query, sort) => {
         try {
-            const products = await ProductModel.paginate({query}, {limit, page})
+            const products = await ProductModel.paginate({query}, {limit, page, lean:true});
             if(products.docs.length === 0) throw new Error("Could not find any products")
 
             return {

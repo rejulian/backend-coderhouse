@@ -9,8 +9,9 @@
                     <p>${{this.price}}</p>
                     <p>Stock:{{this.stock}}</p>
                 </div>
-                <button onclick="alert('Es solo estetico')">Agregar</button>
+                <button onclick="addToCart('{{this._id}}')">Agregar al carrito</button>
             </div>
         {{/each}}
     </div>
 </section>
+<script src="/product.js"></script>

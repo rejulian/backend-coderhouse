@@ -1,0 +1,15 @@
+<section class="products" id="home">
+    <h1>Pizzeria Coderhouse</h1>
+    <div class="products__container">
+        {{#each products}}
+            <div class="product__card">
+                <img src={{this.product_id.thumbnail}} alt={{this.product_id.title}}>
+                <h1>{{this.product_id.title}}</h1>
+                <div class="product__card__information">
+                    <p>${{this.product_id.price}}</p>
+                    <p>Cantidad:{{this.quantity}} </p>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</section>
