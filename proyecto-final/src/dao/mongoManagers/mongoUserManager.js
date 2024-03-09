@@ -1,3 +1,4 @@
+import { comparePassword, hashPassword } from "../../services/bcrypt.js";
 import { UserModel } from "../models/user.model.js"
 
 export class MongoUserManager {
@@ -8,7 +9,8 @@ export class MongoUserManager {
             if (!first_name || !last_name, !email || !password, !age) throw new Error("Complete the required fields!")
             const exists = await UserModel.findOne({ email })
             if (exists) throw new Error("User already exists")
-            const new_user = await UserModel.create({ first_name, last_name, email, age, password, role })
+            const hashedPassword = await hashPassword(password)
+            const new_user = await UserModel.create({ first_name, last_name, email, age, password:hashedPassword, role })
             return new_user
         } catch (error) {
             throw new Error(error.message)
@@ -18,14 +20,16 @@ export class MongoUserManager {
     login = async (user) => {
         try {
             const { email, password } = user;
-            const exitingUser = await UserModel.findOne({ email })
-            if (!exitingUser || exitingUser.password !== password) throw new Error("Invalid credentials!")
+            const existingUser = await UserModel.findOne({ email })
+            if (!existingUser) throw new Error("Invalid credentials!")
+            const passwordMatches = await comparePassword(password, existingUser.password)
+            if (!passwordMatches) throw new Error("Invalid credentials!")
 
             const userData = {
-                first_name: exitingUser.first_name,
-                last_name: exitingUser.last_name,
-                email: exitingUser.email,
-                age: exitingUser.age
+                first_name: existingUser.first_name,
+                last_name: existingUser.last_name,
+                email: existingUser.email,
+                age: existingUser.age
             }
 
             return userData
