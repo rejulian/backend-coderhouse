@@ -21,7 +21,7 @@ export class MongoUserManager {
         try {
             const { email, password } = user;
             const existingUser = await UserModel.findOne({ email })
-            if (!existingUser) throw new Error("Invalid credentials!")
+            if (!existingUser) throw new Error("Invalid email!")
             const passwordMatches = await comparePassword(password, existingUser.password)
             if (!passwordMatches) throw new Error("Invalid credentials!")
 
@@ -29,7 +29,8 @@ export class MongoUserManager {
                 first_name: existingUser.first_name,
                 last_name: existingUser.last_name,
                 email: existingUser.email,
-                age: existingUser.age
+                age: existingUser.age,
+                role: existingUser.role
             }
 
             return userData

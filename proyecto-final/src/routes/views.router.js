@@ -58,3 +58,12 @@ viewsRouter.post('/chat', async (req, res) => {
         return res.status(500).json({ message: error.message })
     }
 })
+
+// LOGIN
+viewsRouter.get('/login', async (req, res) => {
+    try {
+        res.render('login')
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+})
