@@ -1,9 +1,7 @@
 <section>
-    <form onsubmit="loginUser(event)">
-        <input id="email" type="email" placeholder="Ingrese el email">
-        <input id="password" type="password" placeholder="Ingrese la contraseña">
+    <form action="/api/session/login" method="post">
+        <input id="email" name="email" type="email" placeholder="Ingrese el email">
+        <input id="password" name="password" type="password" placeholder="Ingrese la contraseña">
         <button>Login</button>
     </form>
 </section>
-
-<script src="/auth.js"></script>

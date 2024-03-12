@@ -1,4 +1,3 @@
-
 const addToCart = (id) => {
     fetch(`http://localhost:8080/api/carts/65c36e692d510ffae8295f6d/product/${id}`, {
         method : 'POST',

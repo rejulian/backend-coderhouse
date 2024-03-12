@@ -8,17 +8,18 @@ import { mongoCartManager } from './carts.router.js';
 export const viewsRouter = Router()
 const mongoMessageManager = new MongoMessageManager()
 
-
+// TODOS LOS PRODUCTOS
 viewsRouter.get('/products', async (req, res) => {
     try {
         const { limit = 10, page = 1, query, sort=-1 } = req.query;
         const products = await mongoProductManager.getProducts(limit, page, query, sort)
-        res.render('home', { products: products.payload })
+        res.render('home', { products: products.payload, first_name:req.session.user.first_name })
     } catch (error) {
         res.json(error.message)
     }
 })
 
+// PRODUCTOS EN TIEMPO REAL
 viewsRouter.get('/realTimeProducts', async (req, res) => {
     try {
         const { limit = 10, page = 1, query, sort=1 } = req.query;
@@ -29,11 +30,30 @@ viewsRouter.get('/realTimeProducts', async (req, res) => {
     }
 })
 
+// PRODUCTOS DE UN CARRITO
 viewsRouter.get('/cart/:id', async (req, res) => {
     try {
         const {id} = req.params
         const products = await mongoCartManager.getCartProducts(id)
         res.render('cart', { products })
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+})
+
+// LOGIN
+viewsRouter.get('/login', async (req, res) => {
+    try {
+        res.render('login')
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+})
+
+// REGISTER
+viewsRouter.get('/register', async (req, res) => {
+    try {
+        res.render('register')
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
@@ -59,11 +79,3 @@ viewsRouter.post('/chat', async (req, res) => {
     }
 })
 
-// LOGIN
-viewsRouter.get('/login', async (req, res) => {
-    try {
-        res.render('login')
-    } catch (error) {
-        return res.status(500).json({ message: error.message })
-    }
-})

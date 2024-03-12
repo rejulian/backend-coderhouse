@@ -66,6 +66,16 @@ h1{
     font-weight: 500;
 }
 
+.btn{
+    padding: 5px 10px;
+    background-color: red;
+    border: none;
+    color: rgb(101, 8, 8);
+    font-weight: 700;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 #chat{
     width: 100%;
     display: flex;
