@@ -1,14 +1,14 @@
 import { Router } from "express";
 import { mongoProductManager } from "../index.js";
 import { io } from "../index.js";
-
+import { adminMiddleware } from "../middlewares/auth.middleware.js";
 
 const productsRouter = Router()
 
 //VER TODOS LOS PRODUCTOS
 productsRouter.get('/', async (req, res) => {
     try {
-        const { limit = 10, page = 1, query, sort=1 } = req.query;
+        const { limit = 10, page = 1, query, sort = 1 } = req.query;
         const response = await mongoProductManager.getProducts(limit, page, query, sort)
         return res.json(response)
     } catch (error) {
@@ -36,7 +36,7 @@ productsRouter.get('/:pid', async (req, res) => {
 })
 
 //AGREGAR PRODUCTO
-productsRouter.post('/', async (req, res) => {
+productsRouter.post('/', adminMiddleware, async (req, res) => {
     try {
         const productAdded = await mongoProductManager.addProduct(req.body);
         io.emit('productAdded', productAdded)
@@ -51,7 +51,7 @@ productsRouter.post('/', async (req, res) => {
 })
 
 //ACTUALIZAR PRODUCTO
-productsRouter.put('/:pid', async (req, res) => {
+productsRouter.put('/:pid', adminMiddleware, async (req, res) => {
     try {
         const id = req.params.pid;
         const response = await mongoProductManager.updateProduct(id, req.body)
@@ -65,7 +65,7 @@ productsRouter.put('/:pid', async (req, res) => {
 })
 
 //ELIMINAR PRODUCTO
-productsRouter.delete('/:pid', async (req, res) => {
+productsRouter.delete('/:pid', adminMiddleware, async (req, res) => {
     try {
         const id = req.params.pid;
         const response = await mongoProductManager.deleteProduct(id)

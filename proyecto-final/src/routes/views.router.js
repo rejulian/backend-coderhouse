@@ -3,26 +3,27 @@ import { MongoMessageManager } from '../dao/mongoManagers/mongoMessageManager.js
 import { mongoProductManager } from '../index.js'
 import { io } from '../index.js'
 import { mongoCartManager } from './carts.router.js';
+import { authMiddleware, userLogged } from '../middlewares/auth.middleware.js';
 
 
 export const viewsRouter = Router()
 const mongoMessageManager = new MongoMessageManager()
 
 // TODOS LOS PRODUCTOS
-viewsRouter.get('/products', async (req, res) => {
+viewsRouter.get('/products', authMiddleware, async (req, res) => {
     try {
-        const { limit = 10, page = 1, query, sort=-1 } = req.query;
+        const { limit = 10, page = 1, query, sort = -1 } = req.query;
         const products = await mongoProductManager.getProducts(limit, page, query, sort)
-        res.render('home', { products: products.payload, first_name:req.session.user.first_name })
+        res.render('home', { products: products.payload, first_name: req.session.user.first_name })
     } catch (error) {
         res.json(error.message)
     }
 })
 
 // PRODUCTOS EN TIEMPO REAL
-viewsRouter.get('/realTimeProducts', async (req, res) => {
+viewsRouter.get('/realTimeProducts', authMiddleware, async (req, res) => {
     try {
-        const { limit = 10, page = 1, query, sort=1 } = req.query;
+        const { limit = 10, page = 1, query, sort = 1 } = req.query;
         const products = await mongoProductManager.getProducts(limit, page, query, sort)
         res.render('realTimeProducts', { products })
     } catch (error) {
@@ -33,7 +34,7 @@ viewsRouter.get('/realTimeProducts', async (req, res) => {
 // PRODUCTOS DE UN CARRITO
 viewsRouter.get('/cart/:id', async (req, res) => {
     try {
-        const {id} = req.params
+        const { id } = req.params
         const products = await mongoCartManager.getCartProducts(id)
         res.render('cart', { products })
     } catch (error) {
@@ -51,7 +52,7 @@ viewsRouter.get('/login', async (req, res) => {
 })
 
 // REGISTER
-viewsRouter.get('/register', async (req, res) => {
+viewsRouter.get('/register', userLogged, async (req, res) => {
     try {
         res.render('register')
     } catch (error) {
