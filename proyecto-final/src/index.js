@@ -1,5 +1,8 @@
 import express from 'express';
 import handlebars from 'express-handlebars'
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { databaseConnection } from './dao/db/index.js'
@@ -10,9 +13,8 @@ import { sessionRouter } from './routes/sessions.router.js';
 import { Server } from 'socket.io';
 import { createServer } from 'node:http';
 import { MongoProductManager } from './dao/mongoManagers/mongoProductManager.js';
-import cookieParser from 'cookie-parser';
-import session from 'express-session';
-import MongoStore from 'connect-mongo';
+import { initPassport } from './config/passport.config.js';
+import passport from 'passport';
 
 //FileSystem
 //import { CartManager } from './dao/fileManagers/cartManager.js';
@@ -35,6 +37,8 @@ app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/views');
 
 
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(session({
     store: MongoStore.create({
@@ -45,8 +49,9 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }))
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+initPassport()
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)

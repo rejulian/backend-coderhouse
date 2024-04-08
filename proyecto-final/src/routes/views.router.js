@@ -43,7 +43,7 @@ viewsRouter.get('/cart/:id', async (req, res) => {
 })
 
 // LOGIN
-viewsRouter.get('/login', async (req, res) => {
+viewsRouter.get('/login', userLogged, async (req, res) => {
     try {
         res.render('login')
     } catch (error) {

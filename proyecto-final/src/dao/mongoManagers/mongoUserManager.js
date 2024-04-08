@@ -38,4 +38,24 @@ export class MongoUserManager {
             throw new Error(error.message)
         }
     }
+
+    getUserById = async (id) => {
+        try {
+            const user = await UserModel.findById(id)
+            if(!user) throw new Error("No user found!")
+            return user
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+
+    findUserByEmail = async (email) => {
+        try {
+            const user = UserModel.findOne({email})
+            if(!user) throw new Error("No user found!")
+            return user
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
 }
