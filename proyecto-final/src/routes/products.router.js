@@ -1,81 +1,22 @@
 import { Router } from "express";
-import { mongoProductManager } from "../index.js";
-import { io } from "../index.js";
 import { adminMiddleware } from "../middlewares/auth.middleware.js";
+import { addProduct, deleteProduct, getAllProducts, getProductById, updateProduct } from "../controllers/product.controller.js";
 
 const productsRouter = Router()
 
 //VER TODOS LOS PRODUCTOS
-productsRouter.get('/', async (req, res) => {
-    try {
-        const { limit = 10, page = 1, query, sort = 1 } = req.query;
-        const response = await mongoProductManager.getProducts(limit, page, query, sort)
-        return res.json(response)
-    } catch (error) {
-        console.log(error)
-        res.json({
-            status: "error",
-            message: error.message
-        })
-    }
-
-})
+productsRouter.get('/', getAllProducts)
 
 //VER PRODUCTO POR ID
-productsRouter.get('/:pid', async (req, res) => {
-    try {
-        const id = req.params.pid;
-        const response = await mongoProductManager.getProductById(id)
-        res.json(response)
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            message: error.message
-        })
-    }
-})
+productsRouter.get('/:pid', getProductById)
 
 //AGREGAR PRODUCTO
-productsRouter.post('/', adminMiddleware, async (req, res) => {
-    try {
-        const productAdded = await mongoProductManager.addProduct(req.body);
-        io.emit('productAdded', productAdded)
-        res.json(productAdded)
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            message: error.message
-        })
-
-    }
-})
+productsRouter.post('/', adminMiddleware, addProduct)
 
 //ACTUALIZAR PRODUCTO
-productsRouter.put('/:pid', adminMiddleware, async (req, res) => {
-    try {
-        const id = req.params.pid;
-        const response = await mongoProductManager.updateProduct(id, req.body)
-        res.json(response)
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            message: error.message
-        })
-    }
-})
+productsRouter.put('/:pid', adminMiddleware, updateProduct)
 
 //ELIMINAR PRODUCTO
-productsRouter.delete('/:pid', adminMiddleware, async (req, res) => {
-    try {
-        const id = req.params.pid;
-        const response = await mongoProductManager.deleteProduct(id)
-        res.json(response)
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            message: error.message
-        })
-    }
-})
+productsRouter.delete('/:pid', adminMiddleware, deleteProduct)
 
 export { productsRouter }
