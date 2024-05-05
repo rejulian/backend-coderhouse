@@ -1,7 +1,7 @@
 import { MongoMessageManager } from '../dao/mongoManagers/mongoMessageManager.js';
 import { mongoProductManager } from '../index.js'
 import { io } from '../index.js'
-import { mongoCartManager } from '../routes/carts.router.js';
+import { mongoCartManager } from '../controllers/cart.controller.js';
 
 const mongoMessageManager = new MongoMessageManager()
 
