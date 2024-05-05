@@ -128,3 +128,32 @@ h1{
     cursor: pointer;
     font-weight: 500;
 }
+
+#auth__container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #eee;
+}
+
+.auth-form{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    gap: 10px;
+}
+
+.auth-form input{
+    padding: 10px;
+    border: 1px solid black;
+}
+
+.auth-form button{
+    padding: 10px;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+}

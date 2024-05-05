@@ -44,13 +44,13 @@ const initPassport = () => {
             },
             async (accessToken, refreshToken, profile, done) => {
                 try {
-                    const { name: first_name, email, login } = profile._json;
+                    const { name, email, login } = profile._json;
                     console.log(profile._json);
                     let user = await userManager.findUserByEmail(email);
                     if (!user) {
                         const newUser = await userManager.register({
-                            first_name,
-                            last_name: '.',
+                            first_name: name.split(" ")[0],
+                            last_name: name.split(" ")[1],
                             email,
                             password: `${email + login}123`,
                             age: 99
