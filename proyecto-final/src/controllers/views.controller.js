@@ -1,15 +1,16 @@
 import { MongoMessageManager } from '../dao/mongoManagers/mongoMessageManager.js';
-import { mongoProductManager } from '../index.js'
+import { Products } from "../dao/factory.js";
 import { io } from '../index.js'
 import { mongoCartManager } from '../controllers/cart.controller.js';
 
 const mongoMessageManager = new MongoMessageManager()
+const productDao = new Products()
 
 export const viewAllProducts = async (req, res) => {
     try {
         const { limit = 10, page = 1, query, sort = -1 } = req.query;
-        const products = await mongoProductManager.getProducts(limit, page, query, sort)
-        res.render('home', { products: products.payload, first_name: req.session.user.first_name })
+        const products = await productDao.getProducts(limit, page, query, sort)
+        res.render('home', { products: products.payload || products, first_name: req.session.user.first_name })
     } catch (error) {
         res.json(error.message)
     }
@@ -18,7 +19,7 @@ export const viewAllProducts = async (req, res) => {
 export const viewRealTimeProducts = async (req, res) => {
     try {
         const { limit = 10, page = 1, query, sort = 1 } = req.query;
-        const products = await mongoProductManager.getProducts(limit, page, query, sort)
+        const products = await productDao.getProducts(limit, page, query, sort)
         res.render('realTimeProducts', { products })
     } catch (error) {
         res.json(error.message)

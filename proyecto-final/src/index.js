@@ -12,7 +12,6 @@ import { viewsRouter } from './routes/views.router.js';
 import { sessionRouter } from './routes/sessions.router.js';
 import { Server } from 'socket.io';
 import { createServer } from 'node:http';
-import { MongoProductManager } from './dao/mongoManagers/mongoProductManager.js';
 import { initPassport } from './config/passport.config.js';
 import passport from 'passport';
 
@@ -24,8 +23,6 @@ import passport from 'passport';
 
 const app = express();
 const server = createServer(app)
-
-export const mongoProductManager = new MongoProductManager();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

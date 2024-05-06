@@ -45,7 +45,6 @@ const initPassport = () => {
             async (accessToken, refreshToken, profile, done) => {
                 try {
                     const { name, email, login } = profile._json;
-                    console.log(profile._json);
                     let user = await userManager.findUserByEmail(email);
                     if (!user) {
                         const newUser = await userManager.register({

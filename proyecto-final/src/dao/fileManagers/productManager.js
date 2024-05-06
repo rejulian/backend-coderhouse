@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 export class ProductManager {
 
     constructor() {
-        this.path = 'products.json'
+        this.path = 'src/dao/fileManagers/products.json'
         this.products = []
     }
 
