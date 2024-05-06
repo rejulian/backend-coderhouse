@@ -1,7 +1,8 @@
 import { MongoMessageManager } from '../dao/mongoManagers/mongoMessageManager.js';
 import { Products } from "../dao/factory.js";
+import { cartDao } from '../controllers/cart.controller.js';
 import { io } from '../index.js'
-import { mongoCartManager } from '../controllers/cart.controller.js';
+// import { mongoCartManager } from '../controllers/cart.controller.js';
 
 const mongoMessageManager = new MongoMessageManager()
 const productDao = new Products()
@@ -29,7 +30,7 @@ export const viewRealTimeProducts = async (req, res) => {
 export const viewProductsOfCart = async (req, res) => {
     try {
         const { id } = req.params
-        const products = await mongoCartManager.getCartProducts(id)
+        const products = await cartDao.getCartProducts(id)
         res.render('cart', { products })
     } catch (error) {
         return res.status(500).json({ message: error.message })

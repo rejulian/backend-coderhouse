@@ -1,8 +1,8 @@
-// import { MongoProductManager } from '../dao/mongoManagers/mongoProductManager.js';
 import { Products } from "../dao/factory.js";
 import { io } from "../index.js";
-
+// import { MongoProductManager } from '../dao/mongoManagers/mongoProductManager.js';
 // export const mongoProductManager = new MongoProductManager();
+
 const productDao = new Products()
 
 export const getAllProducts = async (req, res) => {
