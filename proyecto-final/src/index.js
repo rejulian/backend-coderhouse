@@ -14,6 +14,7 @@ import { Server } from 'socket.io';
 import { createServer } from 'node:http';
 import { initPassport } from './config/passport.config.js';
 import passport from 'passport';
+import { program } from './config/commander.config.js';
 
 //FileSystem
 //import { CartManager } from './dao/fileManagers/cartManager.js';
@@ -59,11 +60,13 @@ app.get('/', (req, res) => {
     res.send('Hola Mundo')
 })
 
+
+
 //SOCKET
 export const io = new Server(server)
 
 
-server.listen(process.env.PORT || 8080, (req, res) => {
-    console.log(`listening on port http://localhost:${process.env.PORT || 8080}`);
+server.listen(program.opts().p, (req, res) => {
+    console.log(`listening on port http://localhost:${program.opts().p}`);
     databaseConnection()
 })
