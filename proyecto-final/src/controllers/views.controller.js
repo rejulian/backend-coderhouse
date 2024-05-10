@@ -11,7 +11,12 @@ export const viewAllProducts = async (req, res) => {
     try {
         const { limit = 10, page = 1, query, sort = -1 } = req.query;
         const products = await productDao.getProducts(limit, page, query, sort)
-        res.render('home', { products: products.payload || products, first_name: req.session.user.first_name })
+        let data = {
+            products: products.payload || products,
+            first_name: req.session.user.first_name,
+            cart_id: req.session.user.cart_id
+        }
+        res.render('home', data)
     } catch (error) {
         res.json(error.message)
     }

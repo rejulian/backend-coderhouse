@@ -1,5 +1,6 @@
 <section class="products" id="home">
-    <h1>Hola, {{this.first_name}}. Bienvenido a la Pizzeria Coderhouse</h1>
+    <h1>Hola, {{first_name}}. Bienvenido a la Pizzeria Coderhouse</h1>
+    <p>{{cart_id}}</p>
     <div class="products__container">
         {{#each products}}
             <div class="product__card">
@@ -9,7 +10,7 @@
                     <p>${{this.price}}</p>
                     <p>Stock:{{this.stock}}</p>
                 </div>
-                <button onclick="addToCart('{{this._id}}')">Agregar al carrito</button>
+                <button onclick="addToCart('{{this._id}}', '{{../cart_id}}')">Agregar al carrito</button>
             </div>
         {{/each}}
     </div>

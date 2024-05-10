@@ -1,16 +1,20 @@
 import { comparePassword, hashPassword } from "../../services/bcrypt.js";
 import { UserModel } from "../models/user.model.js"
+import { MongoCartManager } from "./mongoCartManager.js";
+
+const cartManager = new MongoCartManager();
 
 export class MongoUserManager {
 
     register = async (user) => {
         try {
-            const { first_name, last_name, email, age, password, role = 'usuario' } = user;
+            const { first_name, last_name, email, age, password, role = 'usuario'} = user;
             if (!first_name || !last_name, !email || !password, !age) throw new Error("Complete the required fields!")
             const exists = await UserModel.findOne({ email })
             if (exists) throw new Error("User already exists")
             const hashedPassword = await hashPassword(password)
-            const new_user = await UserModel.create({ first_name, last_name, email, age, password:hashedPassword, role })
+            const newCart = await cartManager.createCart()
+            const new_user = await UserModel.create({ first_name, last_name, email, age, password:hashedPassword, role, cart_id: newCart._id})
             return new_user
         } catch (error) {
             throw new Error(error.message)
@@ -30,7 +34,8 @@ export class MongoUserManager {
                 last_name: existingUser.last_name,
                 email: existingUser.email,
                 age: existingUser.age,
-                role: existingUser.role
+                role: existingUser.role,
+                cart_id: existingUser.cart_id,
             }
 
             return userData
