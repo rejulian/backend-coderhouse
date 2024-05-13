@@ -77,7 +77,7 @@ export const purchaseCart = async (req, res) => {
         const cart_id = req.params.cid;
         const { purchaser } = req.body;
         if(!purchaser) throw new Error('Cannot purchase without an email')
-        let not_abailable_products = []
+        let not_available_products = []
         let amount = 0
 
         const cart_products = await cartDao.getCartProducts(cart_id)
@@ -85,13 +85,15 @@ export const purchaseCart = async (req, res) => {
 
         cart_products.forEach(async (product) => {
             if (product.quantity > product.product_id.stock) {
-                not_abailable_products.push(product.product_id._id)
+                not_available_products.push(product)
             } else {
                 amount += product.quantity * product.product_id.price;
                 await productDao.updateProduct(product.product_id._id, {stock: product.product_id.stock-product.quantity})
-                // await cartDao.deleteProductFromCart(cart_id, product.product_id._id)
             }
         })
+
+        await cartDao.updateAfterPurchase(cart_id, not_available_products)
+
         const newTicket = await createTicket(amount, purchaser)
         res.send(newTicket)
     } catch (error) {

@@ -2,6 +2,7 @@ import { MongoMessageManager } from '../dao/mongoManagers/mongoMessageManager.js
 import { Products } from "../dao/factory.js";
 import { cartDao } from '../controllers/cart.controller.js';
 import { io } from '../index.js'
+import { UserDTO } from "../dao/dto/user.dto.js";
 // import { mongoCartManager } from '../controllers/cart.controller.js';
 
 const mongoMessageManager = new MongoMessageManager()
@@ -76,4 +77,9 @@ export const createMessage = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
+}
+
+export const getCurrentUser = async (req, res) => {
+    const userDTO = new UserDTO(req.session.user)
+    res.render("current", { user: userDTO });
 }

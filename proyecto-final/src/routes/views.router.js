@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { authMiddleware, userLogged } from '../middlewares/auth.middleware.js';
-import { createMessage, viewAllProducts, viewChat, viewLogin, viewProductsOfCart, viewRealTimeProducts, viewRegister } from '../controllers/views.controller.js';
+import { createMessage, getCurrentUser, viewAllProducts, viewChat, viewLogin, viewProductsOfCart, viewRealTimeProducts, viewRegister } from '../controllers/views.controller.js';
 
 
 export const viewsRouter = Router()
@@ -19,6 +19,9 @@ viewsRouter.get('/login', userLogged, viewLogin)
 
 // REGISTER
 viewsRouter.get('/register', userLogged, viewRegister)
+
+// current
+viewsRouter.get("/current", authMiddleware ,getCurrentUser)
 
 viewsRouter.get('/chat', viewChat)
 

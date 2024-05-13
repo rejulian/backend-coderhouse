@@ -91,4 +91,20 @@ export class MongoCartManager {
             throw new Error(error.message)
         }
     }
+
+    updateAfterPurchase = async (cart_id, not_available_products) => {
+        try {
+            await this.deleteProductsFromCart(cart_id)
+            let updatedCart = []
+            for (let index = 0; index < not_available_products.length; index++) {
+                const product = not_available_products[index];
+                const updatedProduct = await this.addProductToCart(cart_id, product.product_id._id, product.quantity)
+                updatedCart.push(updatedProduct)
+            }
+            return updatedCart
+        } catch (error) {
+            console.log(error);
+            throw new Error(error.message)
+        }
+    }
 }
