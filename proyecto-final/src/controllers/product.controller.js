@@ -1,15 +1,13 @@
 import { Products } from "../dao/factory.js";
-import { generateProduct } from "../dao/mocks/product.mocks.js";
+import { generateProduct } from "../mocks/product.mocks.js";
 import { io } from "../index.js";
-// import { MongoProductManager } from '../dao/mongoManagers/mongoProductManager.js';
-// export const mongoProductManager = new MongoProductManager();
 
-export const productDao = new Products()
+export const productFactory = new Products()
 
 export const getAllProducts = async (req, res) => {
     try {
         const { limit = 10, page = 1, query, sort = 1 } = req.query;
-        const response = await productDao.getProducts(limit, page, query, sort)
+        const response = await productFactory.getProducts(limit, page, query, sort)
         return res.json(response)
     } catch (error) {
         console.log(error)
@@ -23,7 +21,7 @@ export const getAllProducts = async (req, res) => {
 export const getProductById = async (req, res) => {
     try {
         const id = req.params.pid;
-        const response = await productDao.getProductById(id)
+        const response = await productFactory.getProductById(id)
         res.json(response)
     } catch (error) {
         console.log(error)
@@ -35,7 +33,7 @@ export const getProductById = async (req, res) => {
 
 export const addProduct = async (req, res) => {
     try {
-        const productAdded = await productDao.addProduct(req.body);
+        const productAdded = await productFactory.addProduct(req.body);
         io.emit('productAdded', productAdded)
         res.json(productAdded)
     } catch (error) {
@@ -49,7 +47,7 @@ export const addProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
     try {
         const id = req.params.pid;
-        const response = await productDao.updateProduct(id, req.body)
+        const response = await productFactory.updateProduct(id, req.body)
         res.json(response)
     } catch (error) {
         console.log(error)
@@ -62,7 +60,7 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
     try {
         const id = req.params.pid;
-        const response = await productDao.deleteProduct(id)
+        const response = await productFactory.deleteProduct(id)
         res.json(response)
     } catch (error) {
         console.log(error)

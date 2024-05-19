@@ -15,6 +15,7 @@ import { createServer } from 'node:http';
 import { initPassport } from './config/passport.config.js';
 import passport from 'passport';
 import { program } from './config/commander.config.js';
+import compression from 'express-compression';
 
 //FileSystem
 //import { CartManager } from './dao/fileManagers/cartManager.js';
@@ -47,6 +48,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }))
+app.use(compression())
 initPassport()
 app.use(passport.initialize())
 app.use(passport.session())

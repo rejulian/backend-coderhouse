@@ -1,17 +1,17 @@
 import { MongoMessageManager } from '../dao/mongoManagers/mongoMessageManager.js';
 import { Products } from "../dao/factory.js";
-import { cartDao } from '../controllers/cart.controller.js';
+import { cartFactory } from '../controllers/cart.controller.js';
 import { io } from '../index.js'
-import { UserDTO } from "../dao/dto/user.dto.js";
+import { UserDTO } from "../dto/user.dto.js";
 // import { mongoCartManager } from '../controllers/cart.controller.js';
 
 const mongoMessageManager = new MongoMessageManager()
-const productDao = new Products()
+const productFactory = new Products()
 
 export const viewAllProducts = async (req, res) => {
     try {
         const { limit = 10, page = 1, query, sort = -1 } = req.query;
-        const products = await productDao.getProducts(limit, page, query, sort)
+        const products = await productFactory.getProducts(limit, page, query, sort)
         let data = {
             products: products.payload || products,
             first_name: req.session.user.first_name,
@@ -26,7 +26,7 @@ export const viewAllProducts = async (req, res) => {
 export const viewRealTimeProducts = async (req, res) => {
     try {
         const { limit = 10, page = 1, query, sort = 1 } = req.query;
-        const products = await productDao.getProducts(limit, page, query, sort)
+        const products = await productFactory.getProducts(limit, page, query, sort)
         res.render('realTimeProducts', { products })
     } catch (error) {
         res.json(error.message)
@@ -36,7 +36,7 @@ export const viewRealTimeProducts = async (req, res) => {
 export const viewProductsOfCart = async (req, res) => {
     try {
         const { id } = req.params
-        const products = await cartDao.getCartProducts(id)
+        const products = await cartFactory.getCartProducts(id)
         res.render('cart', { products })
     } catch (error) {
         return res.status(500).json({ message: error.message })
