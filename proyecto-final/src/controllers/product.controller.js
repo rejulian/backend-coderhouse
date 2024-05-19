@@ -1,4 +1,5 @@
 import { Products } from "../dao/factory.js";
+import { generateProduct } from "../dao/mocks/product.mocks.js";
 import { io } from "../index.js";
 // import { MongoProductManager } from '../dao/mongoManagers/mongoProductManager.js';
 // export const mongoProductManager = new MongoProductManager();
@@ -69,4 +70,12 @@ export const deleteProduct = async (req, res) => {
             message: error.message
         })
     }
+}
+
+export const getMockProducts = (req, res) => {
+    let products = []
+    for (let i = 0; i < 100; i++) {
+        products.push(generateProduct())
+    }
+    return res.json({status:"success", payload: products})
 }
