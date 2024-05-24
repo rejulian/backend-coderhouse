@@ -16,6 +16,7 @@ import { initPassport } from './config/passport.config.js';
 import passport from 'passport';
 import { program } from './config/commander.config.js';
 import compression from 'express-compression';
+import { addLogger } from './middlewares/logger.middleware.js';
 
 //FileSystem
 //import { CartManager } from './dao/fileManagers/cartManager.js';
@@ -52,6 +53,8 @@ app.use(compression())
 initPassport()
 app.use(passport.initialize())
 app.use(passport.session())
+
+app.use(addLogger)
 
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
