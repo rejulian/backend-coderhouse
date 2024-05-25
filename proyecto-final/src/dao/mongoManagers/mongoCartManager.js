@@ -87,7 +87,7 @@ export class MongoCartManager {
             existingCart.save()
             return existingCart
         } catch (error) {
-            console.log(error);
+            req.logger.error(`${error} - ${new Date().toLocaleString()}`)
             throw new Error(error.message)
         }
     }
@@ -103,7 +103,7 @@ export class MongoCartManager {
             }
             return updatedCart
         } catch (error) {
-            console.log(error);
+            req.logger.error(`${error} - ${new Date().toLocaleString()}`)
             throw new Error(error.message)
         }
     }

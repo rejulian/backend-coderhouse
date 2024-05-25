@@ -1,2 +1,1 @@
-{"level":"http","message":"Method:GET - URL:/api/products - 24/5/2024, 17:40:52"}
-{"level":"http","message":"Method:GET - URL:/ - 24/5/2024, 17:48:12"}
+{"level":"error","message":"Error: Cannot purchase without an email - 25/5/2024, 12:01:37"}

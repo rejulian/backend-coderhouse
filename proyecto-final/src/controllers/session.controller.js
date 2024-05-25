@@ -10,7 +10,7 @@ export const login = async (req, res) => {
         res.redirect('http://localhost:8080/views/products')
         return
     } catch (error) {
-        console.log(error.message)
+        req.logger.error(`${error} - ${new Date().toLocaleString()}`)
         res.status(500).json(error)
     }
 }
@@ -23,6 +23,7 @@ export const register = async (req, res) => {
             try {
                 return res.status(200).redirect("/products");
             } catch (error) {
+                req.logger.error(`${error} - ${new Date().toLocaleString()}`)
                 return res.status(500).json(error);
             }
         }
@@ -31,7 +32,7 @@ export const register = async (req, res) => {
 export const logout = async (req, res) => {
     req.session.destroy((err) => {
         if (err) {
-            console.error("Error al cerrar sesión:", err);
+            req.logger.error(`${err} - ${new Date().toLocaleString()}`)
             return res.status(500).json({ error: "Error al cerrar sesión" });
         } else {
             return res.status(200).redirect("/auth/login");

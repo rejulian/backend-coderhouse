@@ -11,6 +11,7 @@ export const createTicket = async (amount, purchaser) => {
         const newTicket = await ticketManager.createTicket({code, purchase_datetime, amount, purchaser})
         return newTicket
     } catch (error) {
+        req.logger.error(`${error} - ${new Date().toLocaleString()}`)
         return error.message
     }
 }

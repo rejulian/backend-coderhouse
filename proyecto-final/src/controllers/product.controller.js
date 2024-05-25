@@ -10,7 +10,7 @@ export const getAllProducts = async (req, res) => {
         const response = await productFactory.getProducts(limit, page, query, sort)
         return res.json(response)
     } catch (error) {
-        console.log(error)
+        req.logger.error(`${error} - ${new Date().toLocaleString()}`)
         res.json({
             status: "error",
             message: error.message
@@ -24,7 +24,7 @@ export const getProductById = async (req, res) => {
         const response = await productFactory.getProductById(id)
         res.json(response)
     } catch (error) {
-        console.log(error)
+        req.logger.error(`${error} - ${new Date().toLocaleString()}`)
         res.status(500).json({
             message: error.message
         })
@@ -37,7 +37,7 @@ export const addProduct = async (req, res) => {
         io.emit('productAdded', productAdded)
         res.json(productAdded)
     } catch (error) {
-        console.log(error)
+        req.logger.error(`${error} - ${new Date().toLocaleString()}`)
         res.status(500).json({
             message: error.message
         })
@@ -50,7 +50,7 @@ export const updateProduct = async (req, res) => {
         const response = await productFactory.updateProduct(id, req.body)
         res.json(response)
     } catch (error) {
-        console.log(error)
+        req.logger.error(`${error} - ${new Date().toLocaleString()}`)
         res.status(500).json({
             message: error.message
         })
@@ -63,7 +63,7 @@ export const deleteProduct = async (req, res) => {
         const response = await productFactory.deleteProduct(id)
         res.json(response)
     } catch (error) {
-        console.log(error)
+        req.logger.error(`${error} - ${new Date().toLocaleString()}`)
         res.status(500).json({
             message: error.message
         })

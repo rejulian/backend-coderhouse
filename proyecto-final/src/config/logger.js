@@ -1,17 +1,26 @@
 import winston from 'winston';
 
-//configuracion
-export const logger = winston.createLogger({
+const customLevelsOptions = {
+    levels: {
+        fatal: 0,
+        error: 1,
+        warning: 2,
+        info: 3,
+        http: 4,
+        debug: 5,
+    }
+}
+
+export const prodLogger = winston.createLogger({
+    levels: customLevelsOptions.levels,
     transports: [
-        new winston.transports.Console({level:'warn'}),
-        new winston.transports.File({filename:'./errors.log', level:'http'})
+        new winston.transports.File({filename:'./errors.log', level:'info'})
     ]
 })
 
-// 0-error
-// 1-warn
-// 2-info
-// 3-http
-// 4-verbose
-// 5-debug
-// 6-silly
+export const devLogger = winston.createLogger({
+    levels: customLevelsOptions.levels,
+    transports:[
+        new winston.transports.Console({level:"debug"})
+    ]
+})

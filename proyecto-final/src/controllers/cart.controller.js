@@ -11,6 +11,7 @@ export const createCart = async (req, res) => {
         const response = await cartFactory.createCart()
         res.json(response)
     } catch (error) {
+        req.logger.error(`${error} - ${new Date().toLocaleString()}`)
         res.status(500).json({ message: error.message })
     }
 }
@@ -21,6 +22,7 @@ export const getCartProducts = async (req, res) => {
         const response = await cartFactory.getCartProducts(id)
         res.json(response)
     } catch (error) {
+        req.logger.error(`${error} - ${new Date().toLocaleString()}`)
         res.status(500).json({ message: error.message })
     }
 }
@@ -33,6 +35,7 @@ export const addProductToCart = async (req, res) => {
         const response = await cartFactory.addProductToCart(cart_id, product_id, quantity)
         res.send(response)
     } catch (error) {
+        req.logger.error(`${error} - ${new Date().toLocaleString()}`)
         res.status(500).json({ message: error.message })
     }
 }
@@ -45,6 +48,7 @@ export const deleteProductFromCart = async (req, res) => {
         const response = await cartFactory.deleteProductFromCart(cart_id, product_id)
         res.send(response)
     } catch (error) {
+        req.logger.error(`${error} - ${new Date().toLocaleString()}`)
         res.status(500).json({ message: error.message })
     }
 }
@@ -55,6 +59,7 @@ export const deleteAllProductsFromCart = async (req, res) => {
         const response = await cartFactory.deleteProductsFromCart(cart_id)
         res.send(response)
     } catch (error) {
+        req.logger.error(`${error} - ${new Date().toLocaleString()}`)
         res.status(500).json({ message: error.message })
     }
 }
@@ -67,7 +72,7 @@ export const updateProductQuantityFromCart = async (req, res) => {
         const response = await cartFactory.updateQuantity(cart_id, product_id, quantity)
         res.send(response)
     } catch (error) {
-        console.log(error);
+        req.logger.error(`${error} - ${new Date().toLocaleString()}`)
         res.status(500).json({ message: error.message })
     }
 }
@@ -97,7 +102,7 @@ export const purchaseCart = async (req, res) => {
         const newTicket = await createTicket(amount, purchaser)
         res.send(newTicket)
     } catch (error) {
-        console.log(error);
+        req.logger.error(`${error} - ${new Date().toLocaleString()}`)
         res.status(500).json({ message: error.message })
     }
 }

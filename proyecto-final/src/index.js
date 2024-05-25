@@ -65,6 +65,16 @@ app.get('/', (req, res) => {
     res.send('Hola Mundo')
 })
 
+app.get('/loggerTest', (req, res) => {
+    req.logger.debug(`Method:${req.method} - URL:${req.url} - ${new Date().toLocaleString()}`)
+    req.logger.http(`Method:${req.method} - URL:${req.url} - ${new Date().toLocaleString()}`)
+    req.logger.info(`Method:${req.method} - URL:${req.url} - ${new Date().toLocaleString()}`)
+    req.logger.warning(`Method:${req.method} - URL:${req.url} - ${new Date().toLocaleString()}`)
+    req.logger.error(`Method:${req.method} - URL:${req.url} - ${new Date().toLocaleString()}`)
+    req.logger.fatal(`Method:${req.method} - URL:${req.url} - ${new Date().toLocaleString()}`)
+
+    res.send('Loggers created successfully')
+})
 
 
 //SOCKET

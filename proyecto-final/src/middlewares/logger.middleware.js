@@ -1,8 +1,13 @@
-import { logger } from "../config/logger.js"
+import { program } from "../config/commander.config.js";
+import { prodLogger, devLogger } from "../config/logger.js"
 
 export const addLogger = (req,res,next) => {
-    req.logger = logger;
-    req.logger.http(`Method:${req.method} - URL:${req.url} - ${new Date().toLocaleString()}`)
 
+    if(program.opts().mode === "production"){
+        req.logger = prodLogger;
+    }else{
+        req.logger = devLogger
+    }
     next();
 }
+// req.logger.http(`Method:${req.method} - URL:${req.url} - ${new Date().toLocaleString()}`)
