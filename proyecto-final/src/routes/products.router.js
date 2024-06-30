@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { adminMiddleware } from "../middlewares/auth.middleware.js";
+import { adminMiddleware, authMiddleware, authorizationMiddleware } from "../middlewares/auth.middleware.js";
 import { addProduct, deleteProduct, getAllProducts, getMockProducts, getProductById, updateProduct } from "../controllers/product.controller.js";
 
 const productsRouter = Router()
@@ -14,12 +14,12 @@ productsRouter.get('/mockingproducts', getMockProducts)
 productsRouter.get('/:pid', getProductById)
 
 //AGREGAR PRODUCTO
-productsRouter.post('/', adminMiddleware, addProduct)
+productsRouter.post('/', authorizationMiddleware, addProduct)
 
 //ACTUALIZAR PRODUCTO
 productsRouter.put('/:pid', adminMiddleware, updateProduct)
 
 //ELIMINAR PRODUCTO
-productsRouter.delete('/:pid', adminMiddleware, deleteProduct)
+productsRouter.delete('/:pid', authorizationMiddleware, deleteProduct)
 
 export { productsRouter }

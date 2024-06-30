@@ -108,4 +108,30 @@ export class MongoUserManager {
             throw error
         }
     }
+
+    findById = async (userId) => {
+        try {
+          const user = await UserModel.findById(userId);
+          return user;
+        } catch (error) {
+          throw new Error(error.message);
+        }
+      };
+
+    findOne = async (query) => {
+        try {
+          const user = await UserModel.findOne(query);
+          return user;
+        } catch (error) {
+          throw new Error(error.message);
+        }
+      };
+
+      compareOldPassword = async (user, password) => {
+        try {
+          return comparePassword(user, password);
+        } catch (error) {
+          throw new Error(error.message);
+        }
+      };
 }

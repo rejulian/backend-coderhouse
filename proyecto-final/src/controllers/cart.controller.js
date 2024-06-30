@@ -32,6 +32,11 @@ export const addProductToCart = async (req, res) => {
         const cart_id = req.params.cid
         const product_id = req.params.pid
         const { quantity } = req.body
+
+        const product = await productFactory.getProductById(product_id)
+
+        // if(product.owner === req.session.user.email) throw new Error("No puedes agregar este producto al carrito ya que te pertenece")
+
         const response = await cartFactory.addProductToCart(cart_id, product_id, quantity)
         res.send(response)
     } catch (error) {

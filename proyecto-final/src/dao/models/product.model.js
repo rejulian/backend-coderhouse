@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Mongoose } from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2"
 
 const ProductSchema = new mongoose.Schema({
@@ -35,6 +35,10 @@ const ProductSchema = new mongoose.Schema({
     status: {
         type: Boolean,
         required: true
+    },
+    owner: {
+        type: String,
+        default: "admin"
     }
 })
 

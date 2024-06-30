@@ -33,7 +33,8 @@ export const getProductById = async (req, res) => {
 
 export const addProduct = async (req, res) => {
     try {
-        const productAdded = await productFactory.addProduct(req.body);
+        const owner = req.session.user.email
+        const productAdded = await productFactory.addProduct(req.body, owner);
         io.emit('productAdded', productAdded)
         res.json(productAdded)
     } catch (error) {
@@ -60,6 +61,12 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
     try {
         const id = req.params.pid;
+        const product = await productFactory.getProductById(id)
+
+        if(!product) throw new Error("Producto no encontrado")
+
+        if(req.session.role !== "admin" && product.owner !== req.session.user.email) throw new Error("No puedes borrar un producto que no te pertenece")
+
         const response = await productFactory.deleteProduct(id)
         res.json(response)
     } catch (error) {

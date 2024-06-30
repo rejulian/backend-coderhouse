@@ -2,11 +2,12 @@ import { ProductModel } from "../models/product.model.js"
 
 export class MongoProductManager {
 
-    addProduct = async (product) => {
+    addProduct = async (product, owner) => {
         try {
-            const { title, description, price, thumbnail, code, stock, status=true, category } = product;
+            const { title, description, price, thumbnail, code, stock, status=true, category} = product;
+            
             if(!title || !description || !price || !thumbnail || !code || !stock || !status || !category) throw new Error('Complete all the required fields')
-            const newProduct = await ProductModel.create(product)
+            const newProduct = await ProductModel.create({...product, owner})
             return newProduct
         } catch (error) {
             throw new Error(error.message)

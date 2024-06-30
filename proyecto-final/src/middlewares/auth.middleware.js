@@ -21,3 +21,11 @@ export const adminMiddleware = (req, res, next) => {
         res.json({message: 'Unauthorized'})
     }
 }
+
+export const authorizationMiddleware = (req, res, next) => {
+    if(req.session.user.role === 'admin' || req.session.user.role === 'premium'){
+        next()
+    } else {
+        res.json({message: 'Unauthorized'})
+    }
+}

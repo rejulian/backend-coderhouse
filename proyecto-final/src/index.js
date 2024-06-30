@@ -17,6 +17,8 @@ import passport from 'passport';
 import { program } from './config/commander.config.js';
 import compression from 'express-compression';
 import { addLogger } from './middlewares/logger.middleware.js';
+import swaggerJsDoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
 
 //FileSystem
 //import { CartManager } from './dao/fileManagers/cartManager.js';
@@ -29,6 +31,21 @@ const server = createServer(app)
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+// Swagger setup
+const swaggerOptions = {
+    swaggerDefinition: {
+      openapi: '3.0.1',
+      info: {
+        title: 'E-commerce API',
+        description: 'API documentation E-commerce project',
+      }
+    },
+    apis: [`${__dirname}/docs/**/*.yaml`], // Ruta a tus archivos de rutas
+  };
+  
+  const swaggerDocs = swaggerJsDoc(swaggerOptions);
+  app.use('/apidocs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 //HANDLEBARS
 app.use(express.static(__dirname + '/public'));

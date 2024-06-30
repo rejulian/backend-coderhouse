@@ -1,8 +1,7 @@
 import passport from "passport";
 import LocalStrategy from "passport-local";
 import github from "passport-github2";
-import { MongoUserManager } from "../dao/mongoManagers/mongoUserManager.js"
-
+import { MongoUserManager } from "../dao/mongoManagers/mongoUserManager.js";
 
 const userManager = new MongoUserManager();
 
@@ -25,9 +24,9 @@ const initPassport = () => {
                         email: username,
                         password: password,
                     });
-                    done(null, newUser);
+                    return done(null, newUser);
                 } catch (error) {
-                    done(`Error al crear el usuario ${error}`, false);
+                    return done(new Error(`Error al crear el usuario: ${error}`), false);
                 }
             }
         )
@@ -57,7 +56,7 @@ const initPassport = () => {
 
                         return done(null, newUser);
                     }
-                    return done(null, user)
+                    return done(null, user);
                 } catch (error) {
                     return done(error);
                 }
@@ -70,8 +69,12 @@ const initPassport = () => {
     });
 
     passport.deserializeUser(async (id, done) => {
-        const user = await userManager.getUserById(id);
-        done(null, user);
+        try {
+            const user = await userManager.getUserById(id);
+            done(null, user);
+        } catch (error) {
+            done(error);
+        }
     });
 };
 

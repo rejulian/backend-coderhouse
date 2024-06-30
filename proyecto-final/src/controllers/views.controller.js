@@ -3,6 +3,7 @@ import { Products } from "../dao/factory.js";
 import { cartFactory } from '../controllers/cart.controller.js';
 import { io } from '../index.js'
 import { UserDTO } from "../dto/user.dto.js";
+import jwt from "jsonwebtoken"
 // import { mongoCartManager } from '../controllers/cart.controller.js';
 
 const mongoMessageManager = new MongoMessageManager()
@@ -90,3 +91,25 @@ export const getCurrentUser = async (req, res) => {
     const userDTO = new UserDTO(req.session.user)
     res.render("current", { user: userDTO });
 }
+
+export const recoverPassword = async (req, res) => {
+    try {
+      res.render("requestRecoverPassword");
+    } catch (error) {
+      req.logger.error(`${error} - ${new Date().toLocaleString()}`);
+      return res.status(500).json({ message: error.message });
+    }
+  };
+  
+  export const resetPassword = async (req, res) => {
+    const { token } = req.query;
+  
+    try {
+      jwt.verify(token, "secretKey");
+      console.log("Token recibido en la ruta /resetPassword:", token);
+      res.render("recoverPassword", { token });
+    } catch (error) {
+        console.log(error);
+      res.redirect("/views/recoverPassword");
+    }
+  };
