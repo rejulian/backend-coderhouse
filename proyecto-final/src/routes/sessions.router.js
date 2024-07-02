@@ -1,6 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
-import { changeRole, login, logout, recoverPassword, register, resetPassword } from "../controllers/session.controller.js";
+import { changeRole, getCurrentUser, login, logout, recoverPassword, register, resetPassword } from "../controllers/session.controller.js";
 
 export const sessionRouter = Router()
 
@@ -25,6 +25,8 @@ sessionRouter.get(
 );
 
 sessionRouter.get("/logout", logout);
+
+sessionRouter.get("/current", getCurrentUser);
 
 sessionRouter.post("/recoverPassword", recoverPassword);
 

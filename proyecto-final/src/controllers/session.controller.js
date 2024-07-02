@@ -3,6 +3,7 @@ import passport from "passport";
 import jwt from "jsonwebtoken";
 import { transporter } from "../config/nodemailer.js";
 import { hashPassword } from "../services/bcrypt.js"
+import { UserDTO } from "../dto/user.dto.js";
 
 export const mongoUserManager = new MongoUserManager();
 
@@ -46,6 +47,11 @@ export const logout = async (req, res) => {
         }
     });
 };
+
+export const getCurrentUser = async (req, res) => {
+    const userDTO = new UserDTO(req.session.user)
+    res.json(userDTO);
+}
 
 export const recoverPassword = async (req, res) => {
     try {
